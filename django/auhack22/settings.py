@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest.apps.RestConfig',
     'user.apps.UserConfig',
+    'pokeprofile.apps.PokeprofileConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',

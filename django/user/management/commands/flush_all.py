@@ -30,6 +30,8 @@ class Command(BaseCommand):
 
         migration_dirs = [
             str(settings.BASE_DIR) + "/user/migrations",
+            str(settings.BASE_DIR) + "/rest/migrations",
+            str(settings.BASE_DIR) + "/pokeprofile/migrations",
         ]
         for dir in migration_dirs:
             if os.path.isdir(dir):
@@ -46,6 +48,5 @@ class Command(BaseCommand):
         
         call_command("prepare_db")
         self.stdout.write(self.style.SUCCESS("Done"))
-        
-        self.stdout.write(self.style.SUCCESS('Done preparing db.'))
+    
         return

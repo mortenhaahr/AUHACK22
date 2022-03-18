@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('', include('user.urls')), # NB. DRF is unhappy with namespaces, so we don't use them here.
+    path('', include('rest.urls')), # NB. DRF is unhappy with namespaces, so we don't use them here.
     path('admin/', admin.site.urls),
 ]
