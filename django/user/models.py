@@ -36,7 +36,7 @@ class User(AbstractUser):
     age_to = models.PositiveSmallIntegerField(default=30, validators=[MinValueValidator(18), MaxValueValidator(150)])
     search_radius = models.PositiveIntegerField(default=805)
 
-    photo0 = models.ImageField(upload_to=user_directory_path) 
+    photo0 = models.ImageField(upload_to=user_directory_path, default="user/default_monkey.png") 
     photo1 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo2 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo3 = models.ImageField(upload_to=user_directory_path, blank=True) 
@@ -45,7 +45,7 @@ class User(AbstractUser):
     photo6 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo7 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo8 = models.ImageField(upload_to=user_directory_path, blank=True) 
-    photo9 = models.ImageField(upload_to=user_directory_path, blank=True) 
+    photo9 = models.ImageField(upload_to=user_directory_path, blank=True)
 
     class Meta:
         verbose_name = "user"
