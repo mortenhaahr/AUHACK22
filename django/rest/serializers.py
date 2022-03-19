@@ -1,9 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms.models import model_to_dict
 from rest_framework import serializers, fields
 
-from pokeprofile.models import PokeProfile, Pokemon
+from poke_profile.models import PokeProfile, Pokemon
 from user.choices import GENDER
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

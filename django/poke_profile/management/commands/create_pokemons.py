@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from pokeprofile.models import Pokemon
+from poke_profile.models import Pokemon
 
 
 class Command(BaseCommand):
@@ -12,7 +12,7 @@ class Command(BaseCommand):
         Init for the Consultant detail project. Creates a Partner, Questions, Project, Respondents and Answers.
         All linked together.
         """
-        from pokeprofile.data import pokemons
+        from poke_profile.data import pokemons
 
         for name, pokemon in pokemons.items():
             Pokemon.objects.create(

@@ -6,7 +6,7 @@ import os
 
 from multiselectfield import MultiSelectField
 
-from pokeprofile.models import PokeProfile
+from poke_profile.models import PokeProfile
 from user.choices import GENDER
 from user.managers import UserManager
 

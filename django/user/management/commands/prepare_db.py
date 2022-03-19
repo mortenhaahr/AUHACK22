@@ -11,7 +11,7 @@ class Command(BaseCommand):
         self.stdout.write("Preparing database for testing.")
         self.stdout.write("Running makemigrations.")
         call_command("makemigrations")
-        call_command("makemigrations", "user", "rest", "pokeprofile") # Hardcoded because otherwise it won't create initial migration.
+        call_command("makemigrations", "user", "rest", "poke_profile") # Hardcoded because otherwise it won't create initial migration.
         self.stdout.write("Running migrate.")
         call_command("migrate")
         self.stdout.write("Creating Pokemons.")
