@@ -100,7 +100,10 @@ class SmashPassView(views.APIView):
     def post(self, request, pk=None, candidate_pk=None):
         user = get_user_model().objects.get(pk=pk)
         candidate = get_user_model().objects.get(pk=candidate_pk)
-        match = Match.objects.get(user=user, candidate=candidate)
+        try:
+            match = Match.objects.get(user=user, candidate=candidate)
+        except ObjectDoesNotExist:
+            return Response({"detail": "Cannot smash on someone who is not a candidate."})
         smash = request.data['smash']
         match.smash = smash
         match.save()
@@ -111,16 +114,22 @@ class SmashPassView(views.APIView):
         except ObjectDoesNotExist:
             return Response({'counter_part_smashed': None})
 
-        return Response({'counter_part_smashed': counter_match.smash})
+        return Response({'smashed': smash, 'counter_part_smashed': counter_match.smash})
 
     def get(self, request, pk=None, candidate_pk=None):
         user = get_user_model().objects.get(pk=pk)
         candidate = get_user_model().objects.get(pk=candidate_pk)
+        smash = None
+        try:
+            match = Match.objects.get(user=user, candidate=candidate)
+            smash = match.smash
+        except ObjectDoesNotExist:
+            pass
 
         # Return if counterpart said smash/pass or haven't answered
         try:
             counter_match = Match.objects.get(user=candidate, candidate=user)
         except ObjectDoesNotExist:
-            return Response({'counter_part_smashed': None})
+            return Response({'smashed': smash, 'counter_part_smashed': None})
 
-        return Response({'counter_part_smashed': counter_match.smash})
+        return Response({'smashed': smash, 'counter_part_smashed': counter_match.smash})
