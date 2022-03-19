@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from rest_framework import serializers, fields
 
+from poke_profile.models import PokeProfile, Pokemon
 from user.choices import GENDER
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    looking_for = fields.MultipleChoiceField(choices=GENDER.GENDER_CHOICES)
 
     class Meta:
         model = get_user_model()
@@ -32,4 +33,32 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "photo7",
             "photo8",
             "photo9",
+        ]
+
+class PokemonSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Pokemon
+        fields = [
+            "url",
+            "name",
+            "pokedex",
+            "leveling_rate",
+            "species",
+            "catch_rate",
+            "gender_ratio",
+            "hp",
+            "attack",
+            "defence",
+            "sp_atk",
+            "sp_def",
+            "speed",
+            "type0",
+            "type1",
+            "height",
+            "weight",
+            "bmi",
+            "prevolution",
+            "evolution",
+            "img",
         ]
