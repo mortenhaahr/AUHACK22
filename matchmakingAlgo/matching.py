@@ -1,5 +1,3 @@
-from operator import mod
-from typing import List, NamedTuple
 import random
 import json
 
@@ -31,11 +29,16 @@ AttackEffect = { # Steel and Fire are swapped on one axis, wont fix
 class Profile():
     """ Class for holding user profile data
     """
-    def __init__(self, profile: dict, type: dict):
+    def __init__(self, profile: dict):
         self.profile = profile
-        self.type = type
+        self.type = self.retrieveType()
         self.matches = None
         self.smashed = None
+
+    def retrieveType(self):
+        typeDict = {}
+        for atkType in AttackEffect.keys():
+            self.type[atkType] = self.profile[f"type_{atkType.lower()}"]
 
     def retrieveMatches(self, path):
         with open(path, "r") as matchFile:
