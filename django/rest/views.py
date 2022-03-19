@@ -1,4 +1,5 @@
 from geopy import distance
+from django.core.exceptions import ObjectDoesNotExist
 from django_filters import rest_framework as django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.forms.models import model_to_dict 
@@ -21,6 +22,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        "email"
+    ]
 
     def create(self, request, *args, **kwargs):
         obj = super().create(request, *args, **kwargs)
@@ -88,3 +93,34 @@ class CandidatesView(views.APIView):
             Match.objects.create(user=user, candidate=match).save()
 
         return Response(result)
+
+class SmashPassView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk=None, candidate_pk=None):
+        user = get_user_model().objects.get(pk=pk)
+        candidate = get_user_model().objects.get(pk=candidate_pk)
+        match = Match.objects.get(user=user, candidate=candidate)
+        smash = request.data['smash']
+        match.smash = smash
+        match.save()
+
+        # Return if counterpart said smash/pass or haven't answered
+        try:
+            counter_match = Match.objects.get(user=candidate, candidate=user)
+        except ObjectDoesNotExist:
+            return Response({'counter_part_smashed': None})
+
+        return Response({'counter_part_smashed': counter_match.smash})
+
+    def get(self, request, pk=None, candidate_pk=None):
+        user = get_user_model().objects.get(pk=pk)
+        candidate = get_user_model().objects.get(pk=candidate_pk)
+
+        # Return if counterpart said smash/pass or haven't answered
+        try:
+            counter_match = Match.objects.get(user=candidate, candidate=user)
+        except ObjectDoesNotExist:
+            return Response({'counter_part_smashed': None})
+
+        return Response({'counter_part_smashed': counter_match.smash})

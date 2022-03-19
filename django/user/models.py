@@ -55,4 +55,4 @@ class User(AbstractUser):
 class Match(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     candidate = models.ForeignKey(User, on_delete=models.CASCADE, related_name='candidate')
-    match = models.BooleanField(null=True, default=None)
+    smash = models.BooleanField(null=True, default=None) # True if match, false if not, None if not answered
