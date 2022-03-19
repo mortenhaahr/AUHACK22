@@ -45,15 +45,7 @@ class Profile():
         self.matches = [Match(user, self) for user in iteratable]
         self.matches.sort(reverse=True)
 
-    def printAll(self, recalculate: bool=True):
-        if recalculate:
-            for match in self.matches:
-                match.findEffectiveness(self)
-            self.matches.sort(reverse=True)
-        for match in self.matches:
-            print(f"{match.profile} : {match.attractValue}")
-
-    def retrieveTopMatch(self, recalculate: bool=True):
+    def getTopMatch(self, recalculate: bool=True):
         if not self.matches:
             return None
         if recalculate:
@@ -86,11 +78,6 @@ class Profile():
         self.type = {atkType: max(value - modifierDict[atkType], 0) for atkType, value in self.type.items()}
         tot = sum(self.type.values())
         self.type = {atkType: value/tot for atkType, value in self.type.items()}
-
-    def popTopMatch(self):
-        if not self.matches:
-            return None
-        return self.matches.pop(0)
 
 class Match(Profile):
     """ Class for holding values of people other than user
