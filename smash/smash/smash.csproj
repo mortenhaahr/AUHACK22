@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="grdn.png" />
+    <None Remove="greatball.png" />
+    <None Remove="masterball.png" />
+    <None Remove="pokeball.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="grdn.png" />
+    <Resource Include="greatball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="masterball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="pokeball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
