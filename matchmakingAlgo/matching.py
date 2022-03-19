@@ -38,7 +38,8 @@ class Profile():
     def retrieveType(self):
         typeDict = {}
         for atkType in AttackEffect.keys():
-            self.type[atkType] = self.profile[f"type_{atkType.lower()}"]
+            typeDict[atkType] = self.profile[f"type_{atkType.lower()}"]
+        return typeDict
 
     def retrieveMatches(self, path):
         with open(path, "r") as matchFile:
