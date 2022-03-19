@@ -16,6 +16,8 @@ class Command(BaseCommand):
         call_command("migrate")
         self.stdout.write("Creating Pokemons.")
         call_command("create_pokemons")
+        self.stdout.write("Creating Users.")
+        call_command("create_users")
         
         try:
             user = get_user_model().objects.create_superuser(email="auhack22@awesome.com", password="1234")

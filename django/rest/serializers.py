@@ -6,6 +6,7 @@ from poke_profile.models import PokeProfile, Pokemon
 from user.choices import GENDER
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    looking_for = fields.MultipleChoiceField(choices=GENDER.GENDER_CHOICES)
 
     class Meta:
         model = get_user_model()
@@ -68,6 +69,8 @@ class PokeProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PokeProfile
         fields = [
+            'url',
+            'user_id',
             'height',
             'weight',
             'generation',
