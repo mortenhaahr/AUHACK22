@@ -41,11 +41,9 @@ class Profile():
             typeDict[atkType] = self.profile[f"type_{atkType.lower()}"]
         return typeDict
 
-    def retrieveMatches(self, path):
-        with open(path, "r") as matchFile:
-            data = json.load(matchFile)
-            self.matches = [Match(user["Profile"], user["Type"], self) for user in data]
-            self.matches.sort(reverse=True)
+    def retrieveMatches(self, iteratable):
+        self.matches = [Match(user, self) for user in iteratable]
+        self.matches.sort(reverse=True)
 
     def printAll(self, recalculate: bool=True):
         if recalculate:
@@ -63,6 +61,15 @@ class Profile():
                 match.findEffectiveness(self)
             self.matches.sort(reverse=True)
         return self.matches[0]
+
+    def getMatches(self, recalculate: bool=True):
+        if not self.matches:
+            return None
+        if recalculate:
+            for match in self.matches:
+                match.findEffectiveness(self)
+            self.matches.sort(reverse=True)
+        return [match.profile["user"] for match in self.matches]
 
     def rateTopMatch(self, smash: bool):
         """ Function for calculating the change in stats with a given decision
@@ -88,8 +95,8 @@ class Profile():
 class Match(Profile):
     """ Class for holding values of people other than user
     """
-    def __init__(self, profile: dict, type: dict, main: Profile):
-        super().__init__(profile, type)
+    def __init__(self, profile: dict, main: Profile):
+        super().__init__(profile)
         self.findEffectiveness(main)
 
     def findEffectiveness(self, main: Profile):
