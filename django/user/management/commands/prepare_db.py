@@ -14,6 +14,8 @@ class Command(BaseCommand):
         call_command("makemigrations", "user", "rest", "pokeprofile") # Hardcoded because otherwise it won't create initial migration.
         self.stdout.write("Running migrate.")
         call_command("migrate")
+        self.stdout.write("Creating Pokemons.")
+        call_command("create_pokemons")
         
         try:
             user = get_user_model().objects.create_superuser(email="mortenhaahrkristensen@gmail.com", password="1234")

@@ -6,6 +6,7 @@ import os
 
 from multiselectfield import MultiSelectField
 
+from pokeprofile.models import PokeProfile
 from user.choices import GENDER
 from user.managers import UserManager
 
@@ -45,7 +46,9 @@ class User(AbstractUser):
     photo6 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo7 = models.ImageField(upload_to=user_directory_path, blank=True) 
     photo8 = models.ImageField(upload_to=user_directory_path, blank=True) 
-    photo9 = models.ImageField(upload_to=user_directory_path, blank=True) 
+    photo9 = models.ImageField(upload_to=user_directory_path, blank=True)
+
+    poke_profile = models.ForeignKey(PokeProfile, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = "user"
