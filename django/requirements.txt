@@ -6,6 +6,8 @@ Django==4.0.3
 django-filter==21.1
 django-multiselectfield==0.1.12
 djangorestframework==3.13.1
+geographiclib==1.52
+geopy==2.2.0
 gunicorn==20.1.0
 mypy-extensions==0.4.3
 pathspec==0.9.0
