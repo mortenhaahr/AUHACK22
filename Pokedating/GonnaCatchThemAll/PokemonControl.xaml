@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="GonnaCatchThemAll.PokemonControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GonnaCatchThemAll"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Border BorderBrush="#aaa" BorderThickness="1px" CornerRadius="20" Background="#fff" MouseLeftButtonDown="BorderClick_MouseLeftButtonDown" MouseLeftButtonUp="BorderClick_MouseLeftButtonUp" MouseEnter="BorderClick_MouseEnter" MouseLeave="BorderClick_MouseLeave">
+        
+        <Grid>
+            <Border Panel.ZIndex="2" x:Name="BorderHover" BorderBrush="#aaa" BorderThickness="1px" CornerRadius="20" Visibility="Hidden" Background="#7F54C8FB" Margin="-1"/>
+            <Border Panel.ZIndex="2" x:Name="BorderClick" BorderBrush="#aaa" BorderThickness="1px" CornerRadius="20" Visibility="Hidden" Background="#7F02435F" Margin="-1"/>
+            <Image x:Name="pokeImg" HorizontalAlignment="Stretch" Margin="10,10,10,30" VerticalAlignment="Stretch" Panel.ZIndex="0"/>
+            <Label x:Name="labelName" HorizontalContentAlignment="Center" Content="Test" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="200" Panel.ZIndex="0"/>
+        </Grid>
+
+    </Border>
+</UserControl>
