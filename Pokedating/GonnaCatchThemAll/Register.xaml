@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="GonnaCatchThemAll.Register"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GonnaCatchThemAll"
+             mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Sign up!" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Black" FontSize="52"/>
+        <TextBox x:Name="Email_Textbox" Grid.ColumnSpan="2" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
+        <PasswordBox x:Name="Password_Textbox" Grid.ColumnSpan="2" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
+        <PasswordBox x:Name="Confirm_Textbox" Grid.ColumnSpan="2" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
+        <Button x:Name="Register_Button" Content="Register!" FontSize="32" FontWeight="Bold" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20" Click="Register_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="Cancel" FontSize="32" FontWeight="Bold" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20" Click="Cancel_Button_Click" />
+        <TextBlock Grid.ColumnSpan="2" FontSize="7" FontWeight="UltraLight" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Bottom">
+            Terms and conditions will apply: By registering you agree to having the chance of being matched with all people, including - but not limited to - the members of Spice Girls, Members of the U.S. Senate, Members of The Jackson five and Beyoncé.
+            This is non-negotiable, as these relevant parties may or may not be involved in the development and deployment of PokéDating, and may or may not currently be in a legal battle against the release of this revolutionary app.
+            While having access to an account on PokéDating, you are also subject to a monthly bill. The invoicable amount on the monthly payment will be depending upon your usage of the app, where more usage will result in a lower bill. 
+            With substantial use of the app, the invoicable amount might be negative, in which case we need your bank details, as well as criminal record, sex offender record, last 2 IRS-audits, country of origin of you and your parents and blood type and volumen.
+            Failure to comply with the data will result in immediate termination.
+        </TextBlock>
+    </Grid>
+</UserControl>

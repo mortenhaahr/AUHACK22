@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="GonnaCatchThemAll.SmashPassControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GonnaCatchThemAll"
+             mc:Ignorable="d">
+    <Canvas x:Name="canvas">
+        <Image x:Name="Image_Pokeball" Stretch="Fill" Width="50" Height="50" Margin="0,0,0,0" Panel.ZIndex="10" Visibility="Hidden" Source="/pokeball.png" Canvas.Left="375" Canvas.Top="300"/>
+        <Grid Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="Image_Profile" Margin="0,0,0,0" Source="/grdn.png" Stretch="Fill" Height="320" Width="640" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Button_Smash" Width="40" Height="30" Content="Smash" Margin="0,0,0,0" Grid.Column="2" Click="Button_Smash_Click"/>
+                <Button x:Name="Button_Pass" Width="40" Height="30" Content="Pass" Margin="0,0,0,0" />
+                <Grid x:Name="Pokeball_seletion" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="Button_Pokeball" Grid.Row="0" Grid.Column="0" Source="/pokeball.png" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseEnter="Button_Pokeball_MouseEnter" MouseLeave="Button_Pokeball_MouseExit"/>
+                    <Image x:Name="Button_Masterball" Grid.Row="0" Grid.Column="1" Source="/masterball.png" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter"/>
+                    <Image x:Name="Button_Greatball" Grid.Row="0" Grid.Column="2" Source="/greatball.png" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Canvas>
+</UserControl>
+
