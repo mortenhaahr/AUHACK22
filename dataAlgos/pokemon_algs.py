@@ -66,10 +66,10 @@ Pokemon_test = {
 	}
 }
 
-def getMean(weights, SmashedPokemons, key):
+def getMean(SmashedPokemons, key):
 	mean = 0
 	for i, smashed in enumerate(SmashedPokemons.values()):
-		mean += smashed[key]*weights[i]
+		mean += smashed[key]
 
 	return mean / len(SmashedPokemons)
 
@@ -79,7 +79,7 @@ def getMeanHeight(SmashedPokemons):
 def getMeanWeight(SmashedPokemons):
 	return getMean(SmashedPokemons, "Weight")
 
-def getMeanStats(weights, SmashedPokemons):
+def getMeanStats(SmashedPokemons):
 
 	ret = {
 		"HP": 0,
@@ -92,7 +92,7 @@ def getMeanStats(weights, SmashedPokemons):
 
 	for i, smashed in enumerate(SmashedPokemons.values()):
 		for key in ret.keys():
-			ret[key] += smashed["Stats"][key] *weights[i]
+			ret[key] += smashed["Stats"][key]
 
 	for keys in ret:
 		ret[keys] /= len(SmashedPokemons)
@@ -105,7 +105,7 @@ def getMeanGeneration(SmashedPokemons):
 def getMeanCatchRate(SmashedPokemons):
 	return getMean(SmashedPokemons, "Catch rate")
 
-def countOccurredString(weights, SmashedPokemons, key):
+def countOccurredString(SmashedPokemons, key):
 	ret = {}
 	for i, smashed in enumerate(SmashedPokemons.values()):
 
@@ -114,13 +114,13 @@ def countOccurredString(weights, SmashedPokemons, key):
 
 		occuranceKey = smashed[key]
 		if occuranceKey in ret:
-			ret[occuranceKey] += 1*weights[i]
+			ret[occuranceKey] += 1
 		else:
-			ret[occuranceKey] = 1*weights[i]
+			ret[occuranceKey] = 1
 	
 	return ret
 
-def countOccurancesInList(weights, SmashedPokemons, key):
+def countOccurancesInList(SmashedPokemons, key):
 	ret = {}
 	for i, smashed in enumerate(SmashedPokemons.values()):
 
@@ -129,29 +129,26 @@ def countOccurancesInList(weights, SmashedPokemons, key):
 
 		for item in smashed[key]:
 			if item in ret:
-				ret[item] += 1*weights[i]
+				ret[item] += 1
 			else:
-				ret[item] = 1*weights[i]
+				ret[item] = 1
 	return ret
 
 
-def getProfile(SmashedPokemons, weights):
-
-	if sum(weights) != 1:
-		raise ValueError("Total weight sum is not 1!!!")
+def getProfile(SmashedPokemons):
 
 	return {
-		"Type": countOccurancesInList(weights, SmashedPokemons, "Type"),
-		"Height": getMean(weights, SmashedPokemons, "Height"),
-		"Weight": getMean(weights, SmashedPokemons, "Weight"),
-		"Leveling rate": countOccurredString(weights, SmashedPokemons, "Leveling rate"),
-		"Stats": getMeanStats(weights, SmashedPokemons),
-		"Generation": getMean(weights, SmashedPokemons, "Generation"),
+		"Type": countOccurancesInList(SmashedPokemons, "Type"),
+		"Height": getMean(SmashedPokemons, "Height"),
+		"Weight": getMean(SmashedPokemons, "Weight"),
+		"Leveling rate": countOccurredString(SmashedPokemons, "Leveling rate"),
+		"Stats": getMeanStats(SmashedPokemons),
+		"Generation": getMean(SmashedPokemons, "Generation"),
 		"Pokedex": ",".join(str(x["Pokedex"]) for x in SmashedPokemons.values()),
-		"Catch rate": getMean(weights, SmashedPokemons, "Catch rate"),
-		"Species": countOccurredString(weights, SmashedPokemons, "Species"),
-		"BMI": getMean(weights, SmashedPokemons, "BMI"),
-		"Gender ratio": getMean(weights, SmashedPokemons, "Gender ratio")
+		"Catch rate": getMean(SmashedPokemons, "Catch rate"),
+		"Species": countOccurredString(SmashedPokemons, "Species"),
+		"BMI": getMean(SmashedPokemons, "BMI"),
+		"Gender ratio": getMean(SmashedPokemons, "Gender ratio")
 	}
 	
-print(f"CountOccured: {getProfile(Pokemon_test, [0.80,0.20])}")
+print(f"CountOccured: {getProfile(Pokemon_test)}")
