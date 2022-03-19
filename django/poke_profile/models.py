@@ -1,5 +1,6 @@
-from django.db import models
+from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
 class Pokemon(models.Model):
     name = models.CharField(max_length=255)
@@ -49,6 +50,7 @@ class PokeProfile(models.Model):
 
     height = models.FloatField()
     weight = models.FloatField()
+    bmi = models.FloatField()
     hp = models.SmallIntegerField()
     attack = models.SmallIntegerField()
     defence = models.SmallIntegerField()
@@ -62,3 +64,5 @@ class PokeProfile(models.Model):
     pokedex_color = models.CharField(max_length=255)
     prevolution = models.CharField(max_length=255)
     evolution = models.CharField(max_length=255)
+
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, primary_key=True)

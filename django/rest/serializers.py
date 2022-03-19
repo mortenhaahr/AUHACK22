@@ -63,3 +63,40 @@ class PokemonSerializer(serializers.HyperlinkedModelSerializer):
             "evolution",
             "img",
         ]
+
+class PokeProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PokeProfile
+        fields = [
+            'height',
+            'weight',
+            'generation',
+            'pokedex',
+            'catch_rate',
+            'bmi',
+            'gender_ratio',
+            'hp',
+            'attack',
+            'defence',
+            'sp_atk',
+            'sp_def',
+            'speed',
+            'type_normal',
+            'type_flying',
+            'type_fire',
+            'type_psychic',
+            'type_water',
+            'type_bug',
+            'type_grass',
+            'type_rock',
+            'type_electric',
+            'type_ghost',
+            'type_ice',
+            'type_dark',
+            'type_fighting',
+            'type_dragon',
+            'type_poison',
+            'type_steel',
+            'type_ground',
+            'type_fairy',
+        ]
