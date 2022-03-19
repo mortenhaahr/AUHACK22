@@ -18,7 +18,7 @@ class Command(BaseCommand):
         call_command("create_pokemons")
         
         try:
-            user = get_user_model().objects.create_superuser(email="mortenhaahrkristensen@gmail.com", password="1234")
+            user = get_user_model().objects.create_superuser(email="auhack22@awesome.com", password="1234")
             self.stdout.write(self.style.SUCCESS('Successfully created Superuser. '))
         except IntegrityError as e:
             self.stdout.write(self.style.ERROR('Error. Most likely a superuser is already registered by that name.'))

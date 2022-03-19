@@ -21,6 +21,7 @@ class Command(BaseCommand):
                 leveling_rate=pokemon['Leveling rate'],
                 species=pokemon['Species'],
                 catch_rate=pokemon['Catch rate'],
+                generation=pokemon['Generation'],
                 gender_ratio=pokemon['Gender ratio'],
                 hp=pokemon['Stats']['HP'],
                 attack=pokemon['Stats']['Attack'],

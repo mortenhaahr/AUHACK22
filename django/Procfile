@@ -1,0 +1,1 @@
+web: gunicorn auhack22.wsgi

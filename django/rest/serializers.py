@@ -46,6 +46,7 @@ class PokemonSerializer(serializers.HyperlinkedModelSerializer):
             "leveling_rate",
             "species",
             "catch_rate",
+            "generation",
             "gender_ratio",
             "hp",
             "attack",

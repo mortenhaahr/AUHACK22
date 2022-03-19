@@ -7,6 +7,7 @@ class Pokemon(models.Model):
     leveling_rate = models.CharField(max_length=255)
     species = models.CharField(max_length=255)
     catch_rate = models.SmallIntegerField()
+    generation = models.PositiveIntegerField()
     gender_ratio = models.FloatField() # Ratio of male pokemon. -1 if genderless.
     hp = models.SmallIntegerField()
     attack = models.SmallIntegerField()
@@ -55,9 +56,8 @@ class PokeProfile(models.Model):
     sp_def = models.SmallIntegerField()
     speed = models.SmallIntegerField()
     generation = models.PositiveIntegerField()
-    pokedex = models.SmallIntegerField()
+    pokedex = models.CharField(max_length=255)
     catch_rate = models.PositiveIntegerField()
-    species = models.CharField(max_length=255)
     gender_ratio = models.IntegerField() # Ratio of male pokemon. -1 if genderless.
     pokedex_color = models.CharField(max_length=255)
     prevolution = models.CharField(max_length=255)
