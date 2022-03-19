@@ -12,6 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = get_user_model()
         fields = [
             "url",
+            "id",
             "email",
             "first_name",
             "last_name",
@@ -42,6 +43,7 @@ class PokemonSerializer(serializers.HyperlinkedModelSerializer):
         model = Pokemon
         fields = [
             "url",
+            "id",
             "name",
             "pokedex",
             "leveling_rate",

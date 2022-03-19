@@ -1,0 +1,15 @@
+﻿<Window x:Class="GonnaCatchThemAll.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GonnaCatchThemAll"
+        mc:Ignorable="d"
+        Title="PokéDating" Height="1000" Width="560" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged">
+    <Grid>
+        <local:TeamSelector Visibility="Hidden" x:Name="teamSelector" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <local:Login Visibility="Visible" x:Name="loginInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <local:Register Visibility="Hidden" x:Name="registerInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <local:SmashPassControl Visibility="Hidden" x:Name="smashPassInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    </Grid>
+</Window>
