@@ -105,10 +105,11 @@ namespace GonnaCatchThemAll
 
         private void AcceptBtn_Click(object sender, RoutedEventArgs e)
         {
-            Task<string> task = WebAPI.WebClient.Post<WebAPI.PostPokeProfile>("poke_profiles/user/", new(){ pokemons = TeamWindowInstance.GetTeam().ToArray() }, Profile.instance.user.id));
-            task.Start();
-            task.Wait();
-            AcceptDelegate();
+            WebAPI.WebClient.Post<WebAPI.PostPokeProfile>("poke_profiles/user/", new() { pokemons = TeamWindowInstance.GetTeam().ToArray() }, Profile.instance.user.id).ContinueWith(t =>
+             {
+                 t.Wait();
+                 AcceptDelegate();
+             });
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

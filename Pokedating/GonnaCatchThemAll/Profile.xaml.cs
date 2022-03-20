@@ -200,10 +200,13 @@ namespace GonnaCatchThemAll
                 lookFor.Add(2);
             }
             user.looking_for = lookFor.ToArray();
-            Task<string> task = WebAPI.WebClient.Post<WebAPI.User>("users/", user);
-            task.Start();
-            task.Wait();
-            user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
+            var result = WebAPI.WebClient.Post<WebAPI.User>("users/", user).ContinueWith((task) =>
+            {
+                task.Wait();
+                user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
+                SaveDelegate(user);
+            });
+            
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
@@ -214,7 +217,6 @@ namespace GonnaCatchThemAll
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
             Save_ProfileData();
-            SaveDelegate(user);
         }
     }
 }
