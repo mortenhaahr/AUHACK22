@@ -11,11 +11,11 @@ using System.Text.Json.Serialization;
 
 namespace WebAPI
 {
-
-    public enum Gender {
-        OTHER=0,
-        MALE=1,
-        FEMALE=2,
+    public enum Gender
+    {
+        OTHER = 0,
+        MALE = 1,
+        FEMALE = 2,
     };
 
 
@@ -94,9 +94,9 @@ namespace WebAPI
 
     }
 
-    
+
     public class User : IUser<string>
-    {        
+    {
     }
 
     public class PostPokeProfile
@@ -138,15 +138,26 @@ namespace WebAPI
         public double type_poison { get; set; }
         public double type_steel { get; set; }
         public double type_ground { get; set; }
-        public double type_fairy { get; set;  }
+        public double type_fairy { get; set; }
     }
 
-    internal class WebClient
+
+    public class PostSmash
+    {
+        public bool smash { get; set; }
+    };
+
+    public class Smash : PostSmash
+    {
+        public bool? counter_part_smashed { get; set; }
+    }
+
+    public class WebClient
     {
 
+        
 
-
-        static HttpClient client = new HttpClient();
+        private static HttpClient client = new HttpClient();
 
         //Ask for candidates        (data=amount of candidates)
         //Send matched candidate       (Send back id of candidates matched)
@@ -154,7 +165,7 @@ namespace WebAPI
         //Get team
         //Login
 
-        static async Task<T?> Get<T>(string? path, int? userID)
+        public static async Task<T?> Get<T>(string? path, int? userID)
         {
             T? ret = default(T);
 
@@ -180,24 +191,30 @@ namespace WebAPI
             return ret;
         }
 
-        static async Task<Response<T>?> Get<T>(string? path)
+        public static async Task<Response<T>?> Get<T>(string? path)
         {
             return await Get<Response<T>>(path, null);
         }
 
-        static async Task<string> Post<T>(string? path, T obj, int? userId = null)
+        public static async Task<string> Post<T>(string? path, T? obj, int? userId = null)
         {
-            var myContent = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull});
-            var buffer = Encoding.UTF8.GetBytes(myContent);
-            var byteContent = new ByteArrayContent(buffer);
-
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            ByteArrayContent? byteContent = null;
+            if (obj is not null)
+            {
+                var myContent = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+                var buffer = Encoding.UTF8.GetBytes(myContent);
+                byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
+            
 
             path += (userId is null ? "" : userId.ToString() + "/");
 
 
             string responseContent = "";
+
             var response = await client.PostAsync(path, byteContent);
+       
 
             try
             {
@@ -217,71 +234,28 @@ namespace WebAPI
             return responseContent;
         }
 
+        public static async Task<User[]?> GetCandidates(int userID, int candidates=10) {
+            return await Get<User[]>("candidates/" + userID.ToString() + "/" + candidates.ToString() + "/", null);
+        }
+
+        public static async Task<string> PostSmash(int userID, int smashID, bool smash)
+        {
+            return await Post(("smash_pass/" + userID.ToString() + "/" + smashID.ToString() + "/"), new PostSmash() { smash = smash });
+        }
+
+        public static async Task<Smash?> GetSmash(int userID, int smashID)
+        {
+            return await Get<Smash>("smash_pass/" + userID.ToString() + "/" + smashID.ToString() + "/", null);
+        }
 
 
-        public static async Task RunTask()
+        static WebClient()
         {
             client.BaseAddress = new Uri("https://auhack22.herokuapp.com/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("Authorization", "Basic YXVoYWNrMjJAYXdlc29tZS5jb206MTIzNA==");
-
-            try
-            {
-                var users = await Get<User>("users/");
-                
-                Console.WriteLine(users.results);
-
-                var specific_user = await Get<User>("users/", 6);
-
-                var rsp = await Get<PokeProfile>("poke_profiles/");
-
-                
-                PostUser my_User = new()
-                {
-                    id = 7,
-                    age = 29,
-                    age_from = 25,
-                    age_to = 50,
-                    description = "This is my new fancy description. I am looking for Pikagirls for some fun.",
-                    email = "IamNotFake@auhack22.com",
-                    first_name = "John",
-                    last_name = "Doe",
-                    last_seen_lat = 56.17,
-                    last_seen_long = 10.19,
-                    gender = (int)Gender.MALE,
-                    looking_for = new int[] { (int)Gender.FEMALE, (int)Gender.OTHER},
-                    search_radius = 5000,
-                };
-
-                try
-                {
-                    await Post("users/", my_User);
-                }
-                catch
-                {
-
-                }
-                
-
-                PostPokeProfile temp = new () { pokemons = new string[6] {
-                    "Darumaka",
-                    "Dragonair",
-                    "Xerneas",
-                    "Charizard",
-                    "Sceptile",
-                    "Sylveon"
-                    }
-                };
-
-                await Post("poke_profiles/user/", temp, my_User.id);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
         }
 
         
