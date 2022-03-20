@@ -20,7 +20,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Sign up!" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Black" FontSize="52"/>
-        <TextBox x:Name="Email_Textbox" Grid.ColumnSpan="2" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
+        <TextBox x:Name="Email_Textbox" Grid.ColumnSpan="2" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20" Text="Email" GotKeyboardFocus="Textbox_GotKeyboardFocus" />
         <PasswordBox x:Name="Password_Textbox" Grid.ColumnSpan="2" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
         <PasswordBox x:Name="Confirm_Textbox" Grid.ColumnSpan="2" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20"/>
         <Button x:Name="Register_Button" Content="Register!" FontSize="32" FontWeight="Bold" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="40,20,40,20" Click="Register_Button_Click"/>
@@ -29,7 +29,7 @@
             Terms and conditions will apply: By registering you agree to having the chance of being matched with all people, including - but not limited to - the members of Spice Girls, Members of the U.S. Senate, Members of The Jackson five and Beyoncé.
             This is non-negotiable, as these relevant parties may or may not be involved in the development and deployment of PokéDating, and may or may not currently be in a legal battle against the release of this revolutionary app.
             While having access to an account on PokéDating, you are also subject to a monthly bill. The invoicable amount on the monthly payment will be depending upon your usage of the app, where more usage will result in a lower bill. 
-            With substantial use of the app, the invoicable amount might be negative, in which case we need your bank details, as well as criminal record, sex offender record, last 2 IRS-audits, country of origin of you and your parents and blood type and volumen.
+            With substantial use of the app, the invoicable amount might be negative, in which case we need your bank details, as well as criminal record, sex offender record, last 2 IRS-audits, country of origin of you and your parents and blood type and volume.
             Failure to comply with the data will result in immediate termination.
         </TextBlock>
     </Grid>
