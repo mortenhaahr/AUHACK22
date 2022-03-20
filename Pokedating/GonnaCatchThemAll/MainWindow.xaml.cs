@@ -25,10 +25,10 @@ namespace GonnaCatchThemAll
             InitializeComponent();
             loginInstance.LoginDelegate = (WebAPI.User user) =>
             {
-                loginInstance.Visibility = Visibility.Hidden;
+                loginInstance.Dispatcher.Invoke(() => loginInstance.Visibility = Visibility.Hidden);
                 smashPassInstance.currentUser = user;
                 smashPassInstance.RetrieveCandidates();
-                smashPassInstance.Visibility = Visibility.Visible;
+                smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
             };
             loginInstance.RegistorDelegate = () =>
             {
