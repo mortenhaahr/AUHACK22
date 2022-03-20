@@ -22,7 +22,7 @@ namespace GonnaCatchThemAll
     public partial class Register : UserControl
     {
         public Delegates.TransitionDelegate CancelDelegate = () => { };
-        public Delegates.TransitionDelegate RegisterDelegate = () => { };
+        public Delegates.UserDelegate RegisterDelegate = (WebAPI.User user) => { };
         public Register()
         {
             InitializeComponent();
@@ -36,7 +36,9 @@ namespace GonnaCatchThemAll
             }
             var userEmail = Email_Textbox.Text;
             var password = Password_Textbox.Password;
-            RegisterDelegate();
+            WebAPI.User user = new WebAPI.User { email = userEmail };
+
+            RegisterDelegate(user);
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)

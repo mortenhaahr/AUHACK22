@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
+using WebAPI;
 
 namespace GonnaCatchThemAll
 {
@@ -27,6 +28,44 @@ namespace GonnaCatchThemAll
         public SmashPassControl()
         {
             InitializeComponent();
+        }
+
+        public WebAPI.User currentUser;
+        private List<WebAPI.User> candidates = new List<WebAPI.User>();
+
+        public void RetrieveCandidates()
+        {
+            Task<WebAPI.User[]?> task = WebAPI.WebClient.GetCandidates(currentUser.id);
+            task.Start();
+            task.Wait();
+            if (task.Result == null)
+            {
+                return; // Her skal vi snakke shit omkring useren
+            }
+            candidates = task.Result.ToList();
+        }
+
+        private void DecideFateOfCandidate(bool smash)
+        {
+            WebAPI.WebClient.PostSmash(currentUser.id, candidates[0].id, smash);
+            animating = true;
+            ScaleTransform scale = new ScaleTransform();
+            DoubleAnimation scaleAnimation = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(1.2));
+            Image_Profile.RenderTransform = scale;
+            Point relativePoint = Image_Profile.TransformToAncestor(canvas).Transform(new Point(0, 0));
+            scale.CenterX = relativePoint.X + Image_Profile.ActualWidth / 2;
+            scale.CenterY = relativePoint.Y + Image_Profile.ActualHeight / 2;
+            scale.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
+            scale.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
+            Timer t = new Timer();
+            t.Interval = 1200;
+            t.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) =>
+            {
+                animating = false;
+                t.Stop();
+            });
+            t.Start();
+            candidates.RemoveAt(0);
         }
 
         private void Button_Smash_Click(object sender, RoutedEventArgs e)
@@ -50,9 +89,15 @@ namespace GonnaCatchThemAll
             {
                 animating = false;
                 t.Stop();
+                DecideFateOfCandidate(true);
             });
             t.Start();
 
+        }
+
+        private void Button_Pass_Click(object sender, RoutedEventArgs e)
+        {
+            DecideFateOfCandidate(false);
         }
 
         private void Button_Pokeball_Select(object sender, MouseButtonEventArgs e)

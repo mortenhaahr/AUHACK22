@@ -13,6 +13,9 @@
     <Compile Update="MultiImageViewer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="NoteficationControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="PokemonControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MultiImageViewer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="NoteficationControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TeamSelector.xaml">

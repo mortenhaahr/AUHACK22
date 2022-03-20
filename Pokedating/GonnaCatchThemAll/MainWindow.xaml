@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="PokéDating" Height="1000" Width="560" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged">
     <Grid>
+        <local:NoteficationControl Panel.ZIndex="9999" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="200"/>
         <local:TeamSelector Visibility="Hidden" x:Name="teamSelector" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         <local:Login Visibility="Visible" x:Name="loginInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         <local:Register Visibility="Hidden" x:Name="registerInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />

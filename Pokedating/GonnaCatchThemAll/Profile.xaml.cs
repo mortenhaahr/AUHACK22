@@ -23,11 +23,13 @@ namespace GonnaCatchThemAll
     public partial class Profile : UserControl
     {
         public Delegates.TransitionDelegate CancelDelegate = () => { };
-        public Delegates.TransitionDelegate SaveDelegate = () => { };
+        public Delegates.UserDelegate SaveDelegate = (WebAPI.User user) => { };
         public Profile()
         {
             InitializeComponent();
         }
+
+        public WebAPI.User user;
 
         private void ageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -146,7 +148,26 @@ namespace GonnaCatchThemAll
 
         private void Save_ProfileData()
         {
-
+            user.first_name = FirstName_TextBox.Text;
+            user.last_name = LastName_TextBox.Text;
+            user.age = int.Parse(Age_TextBox.Text);
+            user.gender = int.Parse(Gender_ComboBox.Text);
+            user.description = Bio_Textbox.Text;
+            user.age_from = (int)Math.Round(ageSlider.SelectionStart);
+            user.age_to = (int)Math.Round(ageSlider.SelectionEnd);
+            user.search_radius = (int)Math.Round(distSlider.SelectionEnd);
+            user.photo0 = "Blank"; //Image0.Source.ToString();
+            user.photo1 = "Blank"; //Image1.Source.ToString();
+            user.photo2 = "Blank"; //Image2.Source.ToString();
+            user.photo3 = "Blank"; //Image3.Source.ToString();
+            user.photo4 = "Blank"; //Image4.Source.ToString();
+            user.photo5 = "Blank"; //Image5.Source.ToString();
+            user.photo6 = "Blank"; //Image6.Source.ToString();
+            user.photo7 = "Blank"; //Image7.Source.ToString();
+            user.photo8 = "Blank"; //Image8.Source.ToString();
+            user.last_seen_lat = 56.171089;
+            user.last_seen_long = 10.189372;
+            WebAPI.WebClient.Post<WebAPI.User>("users/", user);
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
@@ -156,7 +177,8 @@ namespace GonnaCatchThemAll
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveDelegate();
+            Save_ProfileData();
+            SaveDelegate(user);
         }
     }
 }
