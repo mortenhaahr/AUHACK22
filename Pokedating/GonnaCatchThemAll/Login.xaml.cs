@@ -40,5 +40,15 @@ namespace GonnaCatchThemAll
         {
             RegistorDelegate();
         }
+
+        private void Squirtr_btn_Click(object sender, RoutedEventArgs e)
+        {
+            NoteficationControl.Notify("You got lucky a hot girl near Herning wants to date you!", new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\artwork\squirtle.jpg")));
+        }
+
+        private void Gastrogram_btn_Click(object sender, RoutedEventArgs e)
+        {
+            NoteficationControl.Notify("You need to click on Squirtr");
+        }
     }
 }

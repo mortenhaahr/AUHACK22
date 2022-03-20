@@ -48,8 +48,8 @@
             </Grid.ColumnDefinitions>
             <Label Content="Register or login using: " Grid.Row="1" Grid.ColumnSpan="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold"/>
             <Button Grid.Row="2" Grid.Column="0" Content="Glacebook" FontSize="24" FontWeight="Bold"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="Squirtr" FontSize="24" FontWeight="Bold"/>
-            <Button Grid.Row="2" Grid.Column="2" Content="Gastrogram" FontSize="24" FontWeight="Bold"/>
+            <Button x:Name="Squirtr_btn" Grid.Row="2" Grid.Column="1" Content="Squirtr" FontSize="24" FontWeight="Bold" Click="Squirtr_btn_Click"/>
+            <Button x:Name="Gastrogram_btn" Grid.Row="2" Grid.Column="2" Content="Gastrogram" FontSize="24" FontWeight="Bold" Click="Gastrogram_btn_Click"/>
             <Label Content="or register with email:" Grid.ColumnSpan="3" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Light"/>
         </Grid>
     </Grid>
