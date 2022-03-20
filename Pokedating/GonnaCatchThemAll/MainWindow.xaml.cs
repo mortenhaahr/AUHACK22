@@ -42,7 +42,6 @@ namespace GonnaCatchThemAll
             registerInstance.RegisterDelegate = () =>
             {
                 registerInstance.Visibility = Visibility.Hidden;
-                // Shold be changed to the profile user controll.
                 profileInstance.Visibility = Visibility.Visible;
             };
             profileInstance.CancelDelegate = () =>
