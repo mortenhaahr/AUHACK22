@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Text.Json;
 using Newtonsoft.Json;
 using GonnaCatchThemAll.DTO;
+using GonnaCatchThemAll.Helpers;
 
 namespace GonnaCatchThemAll
 {
@@ -26,7 +27,11 @@ namespace GonnaCatchThemAll
     /// </summary>
     public partial class TeamSelector : UserControl
     {
+        int curWidth = 0;
+        public Delegates.TransitionDelegate AcceptDelegate = () => { };
         public List<PokemonControl> pokemons = new List<PokemonControl>();
+        public List<PokemonControl> pokemonsPresented = new List<PokemonControl>();
+
         public TeamSelector()
         {
             InitializeComponent();
@@ -53,7 +58,8 @@ namespace GonnaCatchThemAll
                     pokemons.Add(p);
                 }
             }
-            foreach (var pokemon in pokemons)
+            pokemonsPresented = pokemons;
+            foreach (var pokemon in pokemonsPresented)
             {
                 MainGrid.Children.Add(pokemon);
             }
@@ -61,6 +67,7 @@ namespace GonnaCatchThemAll
 
         public void RedrawRow(int width)
         {
+            curWidth = width;
             int mwWidth = width - 20;
             MainGrid.Width = mwWidth - (mwWidth % 120);
             int numOfCols = mwWidth / 120;
@@ -69,7 +76,7 @@ namespace GonnaCatchThemAll
             {
                 MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            int numOfRows = pokemons.Count / numOfCols + (pokemons.Count % numOfCols == 0 ? 0 : 1);
+            int numOfRows = pokemonsPresented.Count / numOfCols + (pokemonsPresented.Count % numOfCols == 0 ? 0 : 1);
             MainGrid.Height = numOfRows * 120;
 
             MainGrid.RowDefinitions.Clear();
@@ -81,12 +88,12 @@ namespace GonnaCatchThemAll
             {
                 for (int x = 0; x < numOfCols; x++)
                 {
-                    if ((y * numOfCols + x) >= pokemons.Count)
+                    if ((y * numOfCols + x) >= pokemonsPresented.Count)
                     {
                         return;
                     }
-                    Grid.SetColumn(pokemons[y * numOfCols + x], x);
-                    Grid.SetRow(pokemons[y * numOfCols + x], y);
+                    Grid.SetColumn(pokemonsPresented[y * numOfCols + x], x);
+                    Grid.SetRow(pokemonsPresented[y * numOfCols + x], y);
                 }
             }
         }
@@ -94,6 +101,31 @@ namespace GonnaCatchThemAll
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TeamWindowInstance.ToggleView();
+        }
+
+        private void AcceptBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AcceptDelegate();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var test = pokemons.Where(poke => (SearchTextBox.Text.Length <= poke.PokemonName.Length && poke.PokemonName.Substring(0, SearchTextBox.Text.Length).ToLower() == SearchTextBox.Text.ToLower()));
+            if(test.Count() != 0)
+            {
+                pokemonsPresented = test.ToList();
+                MainGrid.Children.Clear();
+                foreach (var pokemon in pokemonsPresented)
+                {
+                    MainGrid.Children.Add(pokemon);
+                }
+            }
+            else
+            {
+                pokemonsPresented.Clear();
+            }
+            RedrawRow(curWidth);
+
         }
     }
 }

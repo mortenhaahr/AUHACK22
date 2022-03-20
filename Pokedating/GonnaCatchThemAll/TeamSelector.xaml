@@ -8,18 +8,22 @@
 
 
     <Grid>
-        <Button Content="Team" VerticalAlignment="top" HorizontalAlignment="Right" Margin="0,0,40,0" Padding="10,5,10,5" Click="Button_Click" Panel.ZIndex="2"/>
-        <local:TeamWindow x:Name="TeamWindowInstance" Visibility="Hidden" VerticalAlignment="top" HorizontalAlignment="Right" Margin="0,28,40,0" Panel.ZIndex="2"></local:TeamWindow>
+        <Button Content="Team" VerticalAlignment="top" HorizontalAlignment="Right" Margin="0,40,40,0" Padding="10,5,10,5" Click="Button_Click" Panel.ZIndex="2"/>
+        <local:TeamWindow x:Name="TeamWindowInstance" Visibility="Hidden" VerticalAlignment="top" HorizontalAlignment="Right" Margin="0,68,40,0" Panel.ZIndex="2"></local:TeamWindow>
         <Grid Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0" x:Name="ScrollForGrid" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Canvas.Bottom="0" Canvas.Left="0" Canvas.Right="0" Canvas.Top="0" Panel.ZIndex="0">
+            <Grid>
+                <TextBox x:Name="SearchTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" TextChanged="SearchTextBox_TextChanged"/>
+            </Grid>
+            <ScrollViewer Grid.Row="1" x:Name="ScrollForGrid" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Canvas.Bottom="0" Canvas.Left="0" Canvas.Right="0" Canvas.Top="0" Panel.ZIndex="0">
                 <Grid x:Name="MainGrid" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </ScrollViewer>
-            <Grid Grid.Row="1">
-                <Button x:Name="AcceptBtn" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Accept team" IsEnabled="False" Padding="10,5,10,5"></Button>
+            <Grid Grid.Row="2">
+                <Button x:Name="AcceptBtn" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Accept team" IsEnabled="False" Padding="10,5,10,5" Click="AcceptBtn_Click"></Button>
             </Grid>
         </Grid>
     </Grid>

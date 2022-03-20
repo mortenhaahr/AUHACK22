@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
 
 namespace GonnaCatchThemAll
 {
@@ -22,29 +23,20 @@ namespace GonnaCatchThemAll
 
     public partial class SmashPassControl : UserControl
     {
-
+        private bool animating = false;
         public SmashPassControl()
         {
             InitializeComponent();
-            var grdn = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\grdn.png"));
-            var greatball = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\greatball.png"));
-            var masterball = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\masterball.png"));
-            var pokeball = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\pokeball.png"));
-
-            Button_Pokeball.Source = pokeball;
-            Button_Masterball.Source = masterball;
-            Button_Greatball.Source = greatball;
-            Image_Profile.Source = grdn;
         }
 
         private void Button_Smash_Click(object sender, RoutedEventArgs e)
         {
-
+            animating = true;
             Image_Pokeball.Visibility = Visibility.Visible;
             RotateTransform rotate = new RotateTransform();
             TranslateTransform position = new TranslateTransform();
             TransformGroup transform = new TransformGroup();
-            DoubleAnimation upAnimation = new DoubleAnimation(0, -canvas.ActualHeight * 0.6, TimeSpan.FromSeconds(1.2));
+            DoubleAnimation upAnimation = new DoubleAnimation(0, -canvas.ActualHeight * 0.4, TimeSpan.FromSeconds(1.2));
             DoubleAnimation spinAnimation = new DoubleAnimation(0, 360 * 3, TimeSpan.FromSeconds(1.2));
             transform.Children.Add(position);
             transform.Children.Add(rotate);
@@ -52,11 +44,21 @@ namespace GonnaCatchThemAll
             position.BeginAnimation(TranslateTransform.YProperty, upAnimation);
             rotate.BeginAnimation(RotateTransform.CenterYProperty, upAnimation);
             rotate.BeginAnimation(RotateTransform.AngleProperty, spinAnimation);
+            Timer t = new Timer();
+            t.Interval = 1200;
+            t.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) =>
+            {
+                animating = false;
+                t.Stop();
+            });
+            t.Start();
 
         }
 
         private void Button_Pokeball_Select(object sender, MouseButtonEventArgs e)
         {
+            if (animating) { return; }
+            Image_Pokeball.Visibility=Visibility.Hidden;
             Image srcImage = e.Source as Image;
             Image_Pokeball.Source = srcImage.Source;
             srcImage.Opacity = 1;
