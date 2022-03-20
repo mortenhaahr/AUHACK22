@@ -22,7 +22,7 @@ namespace GonnaCatchThemAll
     public partial class Login : UserControl
     {
 
-        public Delegates.TransitionDelegate LoginDelegate = () => { };
+        public Delegates.UserDelegate LoginDelegate = (WebAPI.User user) => { };
         public Delegates.TransitionDelegate RegistorDelegate = () => { };
         public Login()
         {
@@ -33,7 +33,15 @@ namespace GonnaCatchThemAll
         {
             var username = Username_TextBox.Text;
             var password = Password_TextBox.Password;
-            LoginDelegate();
+            Task<WebAPI.User?> task = WebAPI.WebClient.Get<WebAPI.User>("users/", 0);
+            task.Start();
+            task.Wait();
+            if (task.Result == null)
+            {
+                return;
+            }
+            WebAPI.User user = task.Result;
+            LoginDelegate(user);
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
