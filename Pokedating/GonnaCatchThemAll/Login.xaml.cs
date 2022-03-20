@@ -33,15 +33,12 @@ namespace GonnaCatchThemAll
         {
             var username = Username_TextBox.Text;
             var password = Password_TextBox.Password;
-            Task<WebAPI.User?> task = WebAPI.WebClient.Get<WebAPI.User>("users/", 0);
-            task.Start();
-            task.Wait();
-            if (task.Result == null)
+            WebAPI.WebClient.Get<WebAPI.User>("users/", 1).ContinueWith((a) =>
             {
-                return;
-            }
-            Profile.instance.user = task.Result;
-            LoginDelegate(Profile.instance.user);
+                a.Wait();
+                Profile.instance.user = a.Result;
+                LoginDelegate(Profile.instance.user);
+            });
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
