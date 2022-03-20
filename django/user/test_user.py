@@ -1,9 +1,124 @@
 users = [
     {
+        'email' : 'rosen@msn.com',
+        'first_name': 'William',
+        'last_name': 'Rossen',
+        'gender': 2,
+        'age': 19,
+        'description': "Skal du ha' med battet?",
+        'last_seen_lat': 56.171089,
+        'last_seen_long': 10.189372,
+        'looking_for': [0,1,2],
+        'age_from': 18,
+        'age_to': 46,
+        'search_radius': 5,
+        'photo_path': '/dan_black/',
+        'pokemons': [
+            'Pikachu',
+            'Ekans',
+            'Diglett',
+            'Poliwhirl',
+            'Marill',
+            'Cascoon'
+        ]
+    },
+    {
+        'email' : 'das_dober@msn.com',
+        'first_name': 'Johannes',
+        'last_name': 'Døberen',
+        'gender': 1,
+        'age': 46,
+        'description': "Jeg vil dele havene for dig. Religiøs, single, åndsbevidst.",
+        'last_seen_lat': 56.171089,
+        'last_seen_long': 10.189372,
+        'looking_for': [0,1,2],
+        'age_from': 18,
+        'age_to': 26,
+        'search_radius': 20000,
+        'photo_path': '/dan_black/',
+        'pokemons': [
+            'Sandslash',
+            'Raticate',
+            'Dewgong',
+            'Ditto',
+            'Unown',
+            'Taillow'
+        ]
+    },
+        {
+            'email' : 'casper_rysgaard@msn.com',
+            'first_name': 'Magnus',
+            'last_name': 'Magnus',
+            'gender': 0,
+            'age': 98,
+            'description': "Slakoth is my favorite. It's just me. I hate when Pokemon appear from the grass.",
+            'last_seen_lat': 56.171089,
+            'last_seen_long': 10.189372,
+            'looking_for': [0,1,2],
+            'age_from': 18,
+            'age_to': 150,
+            'search_radius': 10000,
+            'photo_path': '/dan_black/',
+            'pokemons': [
+                'Solosis',
+                'Kecleon',
+                'Ditto',
+                'Torchic',
+                'Spheal',
+                'Slakoth'
+            ]
+        },
+        {
+        'email' : 'casper_rysgaard@msn.com',
+        'first_name': 'Casper',
+        'last_name': 'Rysgaard',
+        'gender': 1,
+        'age': 24,
+        'description': "You think you know arithmetics. You think you know that NFTs are the future. You don't know shit. Deep Mafs is the future.",
+        'last_seen_lat': 56.171089,
+        'last_seen_long': 10.189372,
+        'looking_for': [0,1,2],
+        'age_from': 18,
+        'age_to': 42,
+        'search_radius': 3,
+        'photo_path': '/dan_black/',
+        'pokemons': [
+            'Charizard',
+            'Pikachu',
+            'Jigglypuff',
+            'Dugtrio',
+            'Vulpix',
+            'Seedot'
+        ]
+    },
+    {
+        'email' : 'gdform@msn.com',
+        'first_name': 'GDForm',
+        'last_name': 'Gøko',
+        'gender': 1,
+        'age': 24,
+        'description': "I'm a F**cking legend. (Because I chose a legendary Pokemon)",
+        'last_seen_lat': 56.171089,
+        'last_seen_long': 10.189372,
+        'looking_for': [2],
+        'age_from': 21,
+        'age_to': 29,
+        'search_radius': 1,
+        'photo_path': '/dan_black/',
+        'pokemons': [
+            'Igglypuff',
+            'Wobbuffet',
+            'Porygon2',
+            'Plusle',
+            'Minun',
+            'Rayquaza'
+        ]
+    },
+    {
         'email' : 'danblack@msn.com',
         'first_name': 'Dan',
         'last_name': 'Black',
-        'gender': 1,
+        'gender': 2,
         'age': 27,
         'description': "I live with a really cute puppy, but I'm trying to get by on Tinder without his help.",
         'last_seen_lat': 56.171089,
@@ -32,7 +147,7 @@ users = [
         'email' : 'thomaswhite@msn.com',
         'first_name': 'Thomas',
         'last_name': 'White',
-        'gender': 1,
+        'gender': 2,
         'age': 2,
         'description': "Uconn\nLove Music\nLove the Outdoors\nLove life.\nLet's go for a hike sometime.",
         'last_seen_lat': 56.171089,
@@ -135,19 +250,4 @@ users = [
         'Ninetales'
     ]
     },
-    # { user/test_user_images/
-    #     'email' : '',
-    #     'first_name': '',
-    #     'last_name': '',
-    #     'gender': 1,
-    #     'age': 27,
-    #     'description': '',
-    #     'last_seen_lat': 0.0,
-    #     'last_seen_long': 0.0,
-    #     'looking_for': [0, 1, 2],
-    #     'age_from': 18,
-    #     'age_to': 30,
-    #     'search_radius': 805,
-    #     'photo0': ''
-    # }
 ]
