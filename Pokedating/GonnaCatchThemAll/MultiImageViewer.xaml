@@ -9,6 +9,6 @@
     <Grid x:Name="OuterGrid" MouseEnter="Show_MouseEnter" MouseLeave="Show_MouseLeave" Background="#fff">
         <Button x:Name="Left_btn" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="60" Background="#CC000000" BorderThickness="0" Panel.ZIndex="2" Visibility="Hidden" MouseEnter="Btn_MouseEnter" Click="Left_btn_Click" Foreground="#CCFFFFFF" FontSize="20" MouseLeave="Btn_MouseLeave"/>
         <Button x:Name="Right_btn" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="60" Background="#CC000000" BorderThickness="0" Panel.ZIndex="2" Visibility="Hidden" MouseEnter="Btn_MouseEnter"  Click="Right_btn_Click" Foreground="#CCFFFFFF" FontSize="20" MouseLeave="Btn_MouseLeave"/>
-        <Image x:Name="Image_viewer" Panel.ZIndex="0" MouseEnter="Show_MouseEnter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Image x:Name="Image_viewer" Panel.ZIndex="0" MouseEnter="Show_MouseEnter" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
     </Grid>
 </UserControl>
