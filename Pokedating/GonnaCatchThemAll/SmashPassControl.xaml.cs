@@ -38,7 +38,7 @@ namespace GonnaCatchThemAll
 
         public async void RetrieveCandidates()
         {
-            WebAPI.WebClient.GetCandidates(1).ContinueWith((a) =>
+            WebAPI.WebClient.GetCandidates(currentUser.id).ContinueWith((a) =>
             {
                 a.Wait();
                 WebAPI.User[] users = a.Result;
@@ -59,7 +59,7 @@ namespace GonnaCatchThemAll
             });
         }
 
-        private void GetNextCandidate()
+        public void GetNextCandidate()
         {
             List<string> imageList = new List<string> { candidates[0].photo0, candidates[0].photo1, candidates[0].photo2, candidates[0].photo3, candidates[0].photo4, candidates[0].photo5, candidates[0].photo6, candidates[0].photo7, candidates[0].photo8, candidates[0].photo9 };
 
