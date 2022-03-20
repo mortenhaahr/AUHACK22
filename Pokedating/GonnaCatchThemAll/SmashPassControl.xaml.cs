@@ -36,22 +36,39 @@ namespace GonnaCatchThemAll
         public WebAPI.User currentUser;
         private List<WebAPI.User> candidates = new List<WebAPI.User>();
 
-        public void RetrieveCandidates()
+        public async void RetrieveCandidates()
         {
-            Task<WebAPI.User[]?> task = WebAPI.WebClient.GetCandidates(currentUser.id);
-            task.Start();
-            task.Wait();
-            if (task.Result == null)
+            WebAPI.WebClient.GetCandidates(1).ContinueWith((a) =>
             {
-                return; // Her skal vi snakke shit omkring useren
-            }
-            candidates = task.Result.ToList();
+                a.Wait();
+                WebAPI.User[] users = a.Result;
+                candidates = users.ToList();
+            });
         }
 
-        private void DecideFateOfCandidate(bool smash)
+        private async void DecideFateOfCandidate(bool smash)
         {
-            WebAPI.WebClient.PostSmash(currentUser.id, candidates[0].id, smash);
+            await WebAPI.WebClient.PostSmash(currentUser.id, candidates[0].id, smash);
             candidates.RemoveAt(0);
+            GetNextCandidate();
+
+            smashPassControl.Image_Profile.Dispatcher.Invoke(() =>
+            {
+                TranslateTransform translate = new TranslateTransform(); 
+                smashPassControl.Image_Profile.RenderTransform = translate; 
+            });
+        }
+
+        private void GetNextCandidate()
+        {
+            List<string> imageList = new List<string> { candidates[0].photo0, candidates[0].photo1, candidates[0].photo2, candidates[0].photo3, candidates[0].photo4, candidates[0].photo5, candidates[0].photo6, candidates[0].photo7, candidates[0].photo8, candidates[0].photo9 };
+
+            Image_Profile.LoadNewImages(imageList);
+            smashPassControl.Dispatcher.Invoke(() =>
+            {
+                smashPassControl.ProfileNameLabel.Content = candidates[0].first_name;
+                smashPassControl.DiscriptionTextBlock.Text = candidates[0].description;
+            });
         }
 
         private void Button_Smash_Click(object sender, RoutedEventArgs e)
@@ -98,9 +115,13 @@ namespace GonnaCatchThemAll
                     rotate.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
                     t.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) =>
                     {
-                animating = false;
-                DecideFateOfCandidate(true);
-                        t.Stop();
+                        smashPassControl.Image_Pokeball.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            animating = false;
+                            smashPassControl.Image_Pokeball.Visibility = Visibility.Hidden;
+                            DecideFateOfCandidate(true);
+                            t.Stop();
+                        }));
                     });
                     t.Start();
                 }));
