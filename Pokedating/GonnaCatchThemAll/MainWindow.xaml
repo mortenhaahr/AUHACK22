@@ -11,5 +11,6 @@
         <local:Login Visibility="Visible" x:Name="loginInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         <local:Register Visibility="Hidden" x:Name="registerInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         <local:SmashPassControl Visibility="Hidden" x:Name="smashPassInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <local:Profile Visibility="Hidden" x:Name="profileInstance" Margin="0 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </Grid>
 </Window>

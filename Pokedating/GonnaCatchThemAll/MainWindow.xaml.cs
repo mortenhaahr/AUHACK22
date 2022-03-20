@@ -19,6 +19,7 @@ namespace GonnaCatchThemAll
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,7 +43,22 @@ namespace GonnaCatchThemAll
             {
                 registerInstance.Visibility = Visibility.Hidden;
                 // Shold be changed to the profile user controll.
+                profileInstance.Visibility = Visibility.Visible;
+            };
+            profileInstance.CancelDelegate = () =>
+            {
+                profileInstance.Visibility = Visibility.Hidden;
+                loginInstance.Visibility = Visibility.Visible;
+            };
+            profileInstance.SaveDelegate = () =>
+            {
+                profileInstance.Visibility = Visibility.Hidden;
                 teamSelector.Visibility = Visibility.Visible;
+            };
+            teamSelector.AcceptDelegate = () =>
+            {
+                teamSelector.Visibility = Visibility.Hidden;
+                smashPassInstance.Visibility = Visibility.Visible;
             };
         }
 

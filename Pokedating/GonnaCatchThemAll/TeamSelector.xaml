@@ -19,7 +19,7 @@
                 <Grid x:Name="MainGrid" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </ScrollViewer>
             <Grid Grid.Row="1">
-                <Button x:Name="AcceptBtn" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Accept team" IsEnabled="False" Padding="10,5,10,5"></Button>
+                <Button x:Name="AcceptBtn" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Accept team" IsEnabled="False" Padding="10,5,10,5" Click="AcceptBtn_Click"></Button>
             </Grid>
         </Grid>
     </Grid>
