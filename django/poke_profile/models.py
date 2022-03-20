@@ -66,8 +66,3 @@ class PokeProfile(models.Model):
     evolution = models.CharField(max_length=255)
 
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, primary_key=True)
-
-# class Canidate(models.Model):
-#     created_at = models.DateTimeField(auto_now=True)
-#     candidate_for = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-#     candidate_to = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 import uuid
 import os
+from django.forms import BooleanField
 
 from multiselectfield import MultiSelectField
 
@@ -50,3 +51,8 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "user"
         verbose_name_plural = "users"
+
+class Match(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    candidate = models.ForeignKey(User, on_delete=models.CASCADE, related_name='candidate')
+    smash = models.BooleanField(null=True, default=None) # True if match, false if not, None if not answered

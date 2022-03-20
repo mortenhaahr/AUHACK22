@@ -1,3 +1,5 @@
+from geopy import distance
+from django.core.exceptions import ObjectDoesNotExist
 from django_filters import rest_framework as django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.forms.models import model_to_dict 
@@ -8,6 +10,8 @@ from rest.serializers import PokeProfileSerializer, UserSerializer, PokemonSeria
 
 from poke_profile.models import Pokemon, PokeProfile
 from poke_profile.util import get_poke_profile
+from poke_profile.match_algorithm import Profile
+from user.models import Match
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -18,6 +22,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        "email"
+    ]
 
     def create(self, request, *args, **kwargs):
         obj = super().create(request, *args, **kwargs)
@@ -48,12 +56,9 @@ class PokeProfileViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class PokeProfileView(views.APIView):
-    """
-    A simple ViewSet for listing or retrieving users.
-    """
     permission_classes = [permissions.IsAuthenticated]
 
-    def put(self, request, pk=None):
+    def post(self, request, pk=None):
         user = get_user_model().objects.get(pk=pk)
         pokemons = request.data['pokemons']
         
@@ -61,16 +66,70 @@ class PokeProfileView(views.APIView):
 
         return Response(model_to_dict(profile))
 
-class MatchView(views.APIView):
-    """
-    A simple ViewSet for listing or retrieving users.
-    """
+class CandidatesView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, pk=None):
+    def get(self, request, pk=None, amount=None):
         user = get_user_model().objects.get(pk=pk)
-        
-        # Get PokeProfile
-        
+        poke_profile = user.pokeprofile
+        profile = Profile(model_to_dict(poke_profile))
 
-        return Response(model_to_dict(user))
+        user_coords = (user.last_seen_lat, user.last_seen_long)
+
+        # This is stupid but ok
+        matches = Match.objects.filter(user__pk=user.pk).only('user')
+        matches_ids = [match.candidate.pk for match in matches]
+        candidates = get_user_model().objects.exclude(pk=pk).exclude(pokeprofile__isnull=True).exclude(pk__in=matches_ids)
+        l = lambda inp: distance.distance(user_coords, (inp.last_seen_lat, inp.last_seen_long)).km < user.search_radius
+        iter = filter(l, candidates)
+        iter = map(lambda inp: model_to_dict(inp.pokeprofile), iter)
+        profile.retrieveMatches(iter)
+        matches = profile.getMatches(False)
+        user_matches = list(map(lambda inp: get_user_model().objects.get(pk=inp), matches))
+
+        result = [UserSerializer(user, context={'request': request}).data for user in user_matches[0:amount]]
+
+        for match in user_matches:
+            Match.objects.create(user=user, candidate=match).save()
+
+        return Response(result)
+
+class SmashPassView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk=None, candidate_pk=None):
+        user = get_user_model().objects.get(pk=pk)
+        candidate = get_user_model().objects.get(pk=candidate_pk)
+        try:
+            match = Match.objects.get(user=user, candidate=candidate)
+        except ObjectDoesNotExist:
+            return Response({"detail": "Cannot smash on someone who is not a candidate."})
+        smash = request.data['smash']
+        match.smash = smash
+        match.save()
+
+        # Return if counterpart said smash/pass or haven't answered
+        try:
+            counter_match = Match.objects.get(user=candidate, candidate=user)
+        except ObjectDoesNotExist:
+            return Response({'counter_part_smashed': None})
+
+        return Response({'smashed': smash, 'counter_part_smashed': counter_match.smash})
+
+    def get(self, request, pk=None, candidate_pk=None):
+        user = get_user_model().objects.get(pk=pk)
+        candidate = get_user_model().objects.get(pk=candidate_pk)
+        smash = None
+        try:
+            match = Match.objects.get(user=user, candidate=candidate)
+            smash = match.smash
+        except ObjectDoesNotExist:
+            pass
+
+        # Return if counterpart said smash/pass or haven't answered
+        try:
+            counter_match = Match.objects.get(user=candidate, candidate=user)
+        except ObjectDoesNotExist:
+            return Response({'smashed': smash, 'counter_part_smashed': None})
+
+        return Response({'smashed': smash, 'counter_part_smashed': counter_match.smash})
