@@ -41,6 +41,11 @@ namespace GonnaCatchThemAll
             }
         }
 
+        public List<string> GetTeam()
+        {
+            return labels.Select(x => (string)x.Content).ToList();
+        } 
+
         public bool AddOrRemove(string pokeName)
         {
             for(int i = 0; i < 6; i++)

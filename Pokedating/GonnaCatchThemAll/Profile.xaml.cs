@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using GonnaCatchThemAll.Helpers;
+using System.Text.Json;
 
 namespace GonnaCatchThemAll
 {
@@ -27,9 +28,10 @@ namespace GonnaCatchThemAll
         public Profile()
         {
             InitializeComponent();
+            instance = this;
         }
-
-        public WebAPI.User user;
+        public static Profile instance = null;
+        public WebAPI.User user { get; set; }
 
         private void ageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -198,7 +200,10 @@ namespace GonnaCatchThemAll
                 lookFor.Add(2);
             }
             user.looking_for = lookFor.ToArray();
-            WebAPI.WebClient.Post<WebAPI.User>("users/", user);
+            Task<string> task = WebAPI.WebClient.Post<WebAPI.User>("users/", user);
+            task.Start();
+            task.Wait();
+            user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)

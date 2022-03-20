@@ -40,8 +40,8 @@ namespace GonnaCatchThemAll
             {
                 return;
             }
-            WebAPI.User user = task.Result;
-            LoginDelegate(user);
+            Profile.instance.user = task.Result;
+            LoginDelegate(Profile.instance.user);
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
