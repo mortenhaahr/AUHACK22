@@ -36,14 +36,15 @@ namespace GonnaCatchThemAll
         public WebAPI.User currentUser;
         private List<WebAPI.User> candidates = new List<WebAPI.User>();
 
-        public async void RetrieveCandidates()
+        public async Task<int> RetrieveCandidates()
         {
-            WebAPI.WebClient.GetCandidates(currentUser.id).ContinueWith((a) =>
+            await WebAPI.WebClient.GetCandidates(1).ContinueWith((a) =>
             {
                 a.Wait();
                 WebAPI.User[] users = a.Result;
                 candidates = users.ToList();
             });
+            return 0;
         }
 
         private async void DecideFateOfCandidate(bool smash)
@@ -66,7 +67,7 @@ namespace GonnaCatchThemAll
             Image_Profile.LoadNewImages(imageList);
             smashPassControl.Dispatcher.Invoke(() =>
             {
-                smashPassControl.ProfileNameLabel.Content = candidates[0].first_name;
+                smashPassControl.ProfileNameLabel.Content = String.Format("{0} ({1})", candidates[0].first_name,candidates[0].age);
                 smashPassControl.DiscriptionTextBlock.Text = candidates[0].description;
             });
         }

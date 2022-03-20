@@ -27,9 +27,11 @@ namespace GonnaCatchThemAll
             {
                 loginInstance.Dispatcher.Invoke(() => loginInstance.Visibility = Visibility.Hidden);
                 smashPassInstance.currentUser = user;
-                smashPassInstance.RetrieveCandidates();
-                smashPassInstance.GetNextCandidate();
-                smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
+                smashPassInstance.RetrieveCandidates().ContinueWith((a) =>
+                {
+                    smashPassInstance.GetNextCandidate();
+                    smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
+                });
             };
             loginInstance.RegistorDelegate = () =>
             {
@@ -57,14 +59,15 @@ namespace GonnaCatchThemAll
             {
                 profileInstance.Dispatcher.Invoke(() => profileInstance.Visibility = Visibility.Hidden);
                 smashPassInstance.currentUser = user;
-                smashPassInstance.RetrieveCandidates();
-                smashPassInstance.GetNextCandidate();
                 teamSelector.Dispatcher.Invoke(() => teamSelector.Visibility = Visibility.Visible);
             };
             teamSelector.AcceptDelegate = () =>
             {
-                teamSelector.Dispatcher.Invoke(() => teamSelector.Visibility = Visibility.Hidden);
-                smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
+                smashPassInstance.RetrieveCandidates().ContinueWith((a) => {
+                    smashPassInstance.GetNextCandidate();
+                    teamSelector.Dispatcher.Invoke(() => teamSelector.Visibility = Visibility.Hidden);
+                    smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
+                });
             };
         }
 

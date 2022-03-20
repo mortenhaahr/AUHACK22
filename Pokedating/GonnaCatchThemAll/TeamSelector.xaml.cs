@@ -19,6 +19,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using GonnaCatchThemAll.DTO;
 using GonnaCatchThemAll.Helpers;
+using System.Threading;
 
 namespace GonnaCatchThemAll {
     /// <summary>
@@ -90,6 +91,7 @@ namespace GonnaCatchThemAll {
         private void AcceptBtn_Click(object sender, RoutedEventArgs e) {
             WebAPI.WebClient.Post<WebAPI.PostPokeProfile>("poke_profiles/user/", new() { pokemons = TeamWindowInstance.GetTeam().ToArray() }, Profile.instance.user.id).ContinueWith(t => {
                 t.Wait();
+                Thread.Sleep(1000);
                 AcceptDelegate();
             });
         }

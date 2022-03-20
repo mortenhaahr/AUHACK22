@@ -29,6 +29,7 @@ namespace GonnaCatchThemAll
                 images.Add(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\nudes\" + image + ".png")));
             }
             InitializeComponent();
+            idx = 0;
             Image_viewer.Source = images[0];
             Left_btn.Content = "<";
             Right_btn.Content= ">";
