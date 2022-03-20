@@ -3,15 +3,20 @@
 using WebAPI;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.IO;
 
+var image = File.ReadAllBytes(@"stolen_deepfried.png");
+
+var img = await WebClient.LoadImage(new Uri("https://auhack22.herokuapp.com/media/user/default_monkey.png"));
 
 var users = await WebClient.Get<User>("users/");
 var user = await WebClient.Get<User>("users/", 5);
+/*
 var profile = await WebClient.Get<PokeProfile>("poke_profiles/");
 var candidates = await WebClient.GetCandidates(user.id);
 var smases = await WebClient.GetSmash(user.id, 5);
-
-await WebClient.Post<User>("users/", new User { id = user.id, email = "HelloWorld2@gmail.com",
+*/
+await WebClient.Post<PostUser>("users/", new PostUser { email = "HelloWorldImage@gmail.com",
     first_name = "Andreas",
             last_name = "Hansen",
     gender = 1,
@@ -22,7 +27,8 @@ await WebClient.Post<User>("users/", new User { id = user.id, email = "HelloWorl
     looking_for = new int[] { 2 },
     age_from = 18,
     age_to = 24,
-    search_radius = 40 });
+    search_radius = 40,
+    photo0 = image});
 await WebClient.Post<PostPokeProfile>("poke_profiles/user/", new()
                                                         {
                                                             pokemons = new string[] { "Darumaka",
