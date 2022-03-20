@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using GonnaCatchThemAll.Helpers;
+using System.Text.Json;
 
 namespace GonnaCatchThemAll
 {
@@ -23,11 +24,14 @@ namespace GonnaCatchThemAll
     public partial class Profile : UserControl
     {
         public Delegates.TransitionDelegate CancelDelegate = () => { };
-        public Delegates.TransitionDelegate SaveDelegate = () => { };
+        public Delegates.UserDelegate SaveDelegate = (WebAPI.User user) => { };
         public Profile()
         {
             InitializeComponent();
+            instance = this;
         }
+        public static Profile instance = null;
+        public WebAPI.User user { get; set; }
 
         private void ageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -146,7 +150,60 @@ namespace GonnaCatchThemAll
 
         private void Save_ProfileData()
         {
-
+            user.first_name = FirstName_TextBox.Text;
+            user.last_name = LastName_TextBox.Text;
+            user.age = int.Parse(Age_TextBox.Text);
+            switch (Gender_ComboBox.Text)
+            {
+                case "Other":
+                    {
+                        user.gender = 0;
+                    }
+                    break;
+                case "Male":
+                    {
+                        user.gender = 1;
+                    }
+                    break;
+                case "Female":
+                    {
+                        user.gender = 2;
+                    }
+                    break;
+            }
+            user.description = Bio_Textbox.Text;
+            user.age_from = (int)Math.Round(ageSlider.SelectionStart);
+            user.age_to = (int)Math.Round(ageSlider.SelectionEnd);
+            user.search_radius = (int)Math.Round(distSlider.SelectionEnd);
+            user.photo0 = null; //Image0.Source.ToString();
+            user.photo1 = null; //Image1.Source.ToString();
+            user.photo2 = null; //Image2.Source.ToString();
+            user.photo3 = null; //Image3.Source.ToString();
+            user.photo4 = null; //Image4.Source.ToString();
+            user.photo5 = null; //Image5.Source.ToString();
+            user.photo6 = null; //Image6.Source.ToString();
+            user.photo7 = null; //Image7.Source.ToString();
+            user.photo8 = null; //Image8.Source.ToString();
+            user.last_seen_lat = 56.171089;
+            user.last_seen_long = 10.189372;
+            List<int> lookFor = new List<int>();
+            if (CheckBoxOther.IsChecked == true)
+            {
+                lookFor.Add(0);
+            }
+            if (CheckBoxMale.IsChecked == true)
+            {
+                lookFor.Add(1);
+            }
+            if (CheckBoxFemale.IsChecked == true)
+            {
+                lookFor.Add(2);
+            }
+            user.looking_for = lookFor.ToArray();
+            Task<string> task = WebAPI.WebClient.Post<WebAPI.User>("users/", user);
+            task.Start();
+            task.Wait();
+            user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
@@ -156,7 +213,8 @@ namespace GonnaCatchThemAll
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveDelegate();
+            Save_ProfileData();
+            SaveDelegate(user);
         }
     }
 }

@@ -19,7 +19,7 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" x:Name="ProfileNameLabel" Content="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
-                <local:MultiImageViewer Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></local:MultiImageViewer>
+                <local:MultiImageViewer x:Name="Image_Profile" Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></local:MultiImageViewer>
                 <TextBlock x:Name="DiscriptionTextBlock" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Dette er en længere text som gerne skulle være en discription!" TextWrapping="Wrap" FontSize="16"/>
             </Grid>
             <Grid Grid.Row="1">
@@ -30,7 +30,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="Button_Smash" Width="40" Height="30" Content="Smash" Margin="0,0,0,0" Grid.Column="2" Click="Button_Smash_Click"/>
-                <Button x:Name="Button_Pass" Width="40" Height="30" Content="Pass" Margin="0,0,0,0" />
+                <Button x:Name="Button_Pass" Width="40" Height="30" Content="Pass" Margin="0,0,0,0" Click="Button_Pass_Click"/>
                 <Grid x:Name="Pokeball_seletion" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

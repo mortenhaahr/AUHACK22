@@ -23,9 +23,11 @@ namespace GonnaCatchThemAll
         public MainWindow()
         {
             InitializeComponent();
-            loginInstance.LoginDelegate = () =>
+            loginInstance.LoginDelegate = (WebAPI.User user) =>
             {
                 loginInstance.Visibility = Visibility.Hidden;
+                smashPassInstance.currentUser = user;
+                smashPassInstance.RetrieveCandidates();
                 smashPassInstance.Visibility = Visibility.Visible;
             };
             loginInstance.RegistorDelegate = () =>
@@ -39,9 +41,10 @@ namespace GonnaCatchThemAll
                 loginInstance.Visibility = Visibility.Visible;
                 registerInstance.Visibility = Visibility.Hidden;
             };
-            registerInstance.RegisterDelegate = () =>
+            registerInstance.RegisterDelegate = (WebAPI.User user) =>
             {
                 registerInstance.Visibility = Visibility.Hidden;
+                profileInstance.user = user;
                 profileInstance.Visibility = Visibility.Visible;
             };
             profileInstance.CancelDelegate = () =>
@@ -49,9 +52,10 @@ namespace GonnaCatchThemAll
                 profileInstance.Visibility = Visibility.Hidden;
                 loginInstance.Visibility = Visibility.Visible;
             };
-            profileInstance.SaveDelegate = () =>
+            profileInstance.SaveDelegate = (WebAPI.User user) =>
             {
                 profileInstance.Visibility = Visibility.Hidden;
+                smashPassInstance.currentUser = user;
                 teamSelector.Visibility = Visibility.Visible;
             };
             teamSelector.AcceptDelegate = () =>
@@ -78,5 +82,6 @@ namespace GonnaCatchThemAll
                     break;
             }
         }
+
     }
 }

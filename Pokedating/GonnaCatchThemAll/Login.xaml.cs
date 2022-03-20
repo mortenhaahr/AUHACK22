@@ -22,7 +22,7 @@ namespace GonnaCatchThemAll
     public partial class Login : UserControl
     {
 
-        public Delegates.TransitionDelegate LoginDelegate = () => { };
+        public Delegates.UserDelegate LoginDelegate = (WebAPI.User user) => { };
         public Delegates.TransitionDelegate RegistorDelegate = () => { };
         public Login()
         {
@@ -33,12 +33,27 @@ namespace GonnaCatchThemAll
         {
             var username = Username_TextBox.Text;
             var password = Password_TextBox.Password;
-            LoginDelegate();
+            WebAPI.WebClient.Get<WebAPI.User>("users/", 1).ContinueWith((a) =>
+            {
+                a.Wait();
+                Profile.instance.user = a.Result;
+                LoginDelegate(Profile.instance.user);
+            });
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
             RegistorDelegate();
+        }
+
+        private void Squirtr_btn_Click(object sender, RoutedEventArgs e)
+        {
+            NoteficationControl.Notify("You got lucky a hot girl near Herning wants to date you!", new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\artwork\squirtle.jpg")));
+        }
+
+        private void Gastrogram_btn_Click(object sender, RoutedEventArgs e)
+        {
+            NoteficationControl.Notify("You need to click on Squirtr");
         }
     }
 }

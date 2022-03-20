@@ -8,8 +8,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Reflection;
-using System.IO;
 
 namespace WebAPI
 {
@@ -63,46 +61,19 @@ namespace WebAPI
 
     public abstract class IUser<T>
     {
-        [PostUser]
         public string? url { get; set; }
-
-        [PostUser]
         public int id { get; set; }
-
-        [PostUser]
         public string? email { get; set; }
-
-        [PostUser]
         public string? first_name { get; set; }
-
-        [PostUser]
         public string? last_name { get; set; }
-
-        [PostUser]
         public int gender { get; set; }
-
-        [PostUser]
         public int age { get; set; }
-
-        [PostUser]
         public string? description { get; set; }
-
-        [PostUser]
         public double last_seen_lat { get; set; }
-
-        [PostUser]
         public double last_seen_long { get; set; }
-
-        [PostUser]
         public int[]? looking_for { get; set; }
-
-        [PostUser]
         public int age_from { get; set; }
-        
-        [PostUser]
         public int age_to { get; set; }
-
-        [PostUser]
         public double search_radius { get; set; }
 
         public T? photo0 { get; set; }
@@ -119,11 +90,6 @@ namespace WebAPI
     }
 
     public class PostUser : IUser<byte[]>
-    {
-
-    }
-
-    public class PostUserAttribute : Attribute
     {
 
     }
@@ -230,18 +196,18 @@ namespace WebAPI
             return await Get<Response<T>>(path, null);
         }
 
-        public static async Task<string> Post<T>(string? path, T obj, int? userId = null)
+        public static async Task<string> Post<T>(string? path, T? obj, int? userId = null)
         {
-
-
-            string myContent = JsonSerializer.Serialize(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            ByteArrayContent? byteContent = null;
+            if (obj is not null)
+            {
+                var myContent = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+                var buffer = Encoding.UTF8.GetBytes(myContent);
+                byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
             
 
-            var buffer = Encoding.UTF8.GetBytes(myContent);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            
-            
             path += (userId is null ? "" : userId.ToString() + "/");
 
 
@@ -282,17 +248,6 @@ namespace WebAPI
             return await Get<Smash>("smash_pass/" + userID.ToString() + "/" + smashID.ToString() + "/", null);
         }
 
-        public async static Task<byte[]> LoadImage(Uri uri)
-        {
-
-            var response = await client.GetAsync(uri);
-
-            response.EnsureSuccessStatusCode();
-
-            var image = await response.Content.ReadAsByteArrayAsync();
-
-            return image;
-        }
 
         static WebClient()
         {
