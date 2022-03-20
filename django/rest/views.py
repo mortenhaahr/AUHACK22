@@ -112,7 +112,7 @@ class SmashPassView(views.APIView):
         try:
             counter_match = Match.objects.get(user=candidate, candidate=user)
         except ObjectDoesNotExist:
-            return Response({'counter_part_smashed': None})
+            return Response({'smashed': smash, 'counter_part_smashed': None})
 
         return Response({'smashed': smash, 'counter_part_smashed': counter_match.smash})
 
