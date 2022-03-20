@@ -47,5 +47,15 @@ namespace GonnaCatchThemAll
             Password_Textbox.Password = "";
             CancelDelegate();
         }
+
+        private void Textbox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if ((e.Source as TextBox).Foreground == Brushes.Black)
+            {
+                return;
+            }
+            (e.Source as TextBox).Foreground = Brushes.Black;
+            (e.Source as TextBox).Text = "";
+        }
     }
 }

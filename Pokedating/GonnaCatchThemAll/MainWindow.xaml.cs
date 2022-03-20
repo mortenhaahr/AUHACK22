@@ -25,10 +25,10 @@ namespace GonnaCatchThemAll
             InitializeComponent();
             loginInstance.LoginDelegate = (WebAPI.User user) =>
             {
-                loginInstance.Visibility = Visibility.Hidden;
+                loginInstance.Dispatcher.Invoke(() => loginInstance.Visibility = Visibility.Hidden);
                 smashPassInstance.currentUser = user;
                 smashPassInstance.RetrieveCandidates();
-                smashPassInstance.Visibility = Visibility.Visible;
+                smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
             };
             loginInstance.RegistorDelegate = () =>
             {
@@ -54,14 +54,14 @@ namespace GonnaCatchThemAll
             };
             profileInstance.SaveDelegate = (WebAPI.User user) =>
             {
-                profileInstance.Visibility = Visibility.Hidden;
+                profileInstance.Dispatcher.Invoke(() => profileInstance.Visibility = Visibility.Hidden);
                 smashPassInstance.currentUser = user;
-                teamSelector.Visibility = Visibility.Visible;
+                teamSelector.Dispatcher.Invoke(() => teamSelector.Visibility = Visibility.Visible);
             };
             teamSelector.AcceptDelegate = () =>
             {
-                teamSelector.Visibility = Visibility.Hidden;
-                smashPassInstance.Visibility = Visibility.Visible;
+                teamSelector.Dispatcher.Invoke(() => teamSelector.Visibility = Visibility.Hidden);
+                smashPassInstance.Dispatcher.Invoke(() => smashPassInstance.Visibility = Visibility.Visible);
             };
         }
 
