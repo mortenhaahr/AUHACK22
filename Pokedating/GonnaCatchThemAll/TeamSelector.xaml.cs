@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Text.Json;
 using Newtonsoft.Json;
 using GonnaCatchThemAll.DTO;
+using GonnaCatchThemAll.Helpers;
 
 namespace GonnaCatchThemAll
 {
@@ -26,7 +27,9 @@ namespace GonnaCatchThemAll
     /// </summary>
     public partial class TeamSelector : UserControl
     {
+        public Delegates.TransitionDelegate AcceptDelegate = () => { };
         public List<PokemonControl> pokemons = new List<PokemonControl>();
+
         public TeamSelector()
         {
             InitializeComponent();
@@ -94,6 +97,11 @@ namespace GonnaCatchThemAll
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TeamWindowInstance.ToggleView();
+        }
+
+        private void AcceptBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AcceptDelegate();
         }
     }
 }

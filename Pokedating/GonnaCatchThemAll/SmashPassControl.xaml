@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GonnaCatchThemAll"
-             mc:Ignorable="d">
+             mc:Ignorable="d" Width="500" Height="1000">
     <Canvas x:Name="canvas" SizeChanged="canvas_SizeChanged">
         <Image x:Name="Image_Pokeball" Stretch="Fill" Width="50" Height="50" Margin="0,0,0,0" Panel.ZIndex="10" Visibility="Hidden" Source="/pokeball.png" Canvas.Left="375" Canvas.Top="300"/>
         <Grid Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}">
@@ -12,7 +12,16 @@
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image x:Name="Image_Profile" Margin="0,0,0,0" Stretch="Fill" Height="320" Width="640" HorizontalAlignment="Center"/>
+            <Grid Panel.ZIndex="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" x:Name="ProfileNameLabel" Content="Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                <local:MultiImageViewer Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></local:MultiImageViewer>
+                <TextBlock x:Name="DiscriptionTextBlock" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Dette er en længere text som gerne skulle være en discription!" TextWrapping="Wrap" FontSize="16"/>
+            </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -32,9 +41,9 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="Button_Pokeball" Grid.Row="0" Grid.Column="0" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseEnter="Button_Pokeball_MouseEnter" MouseLeave="Button_Pokeball_MouseExit"/>
-                    <Image x:Name="Button_Masterball" Grid.Row="0" Grid.Column="1" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter"/>
-                    <Image x:Name="Button_Greatball" Grid.Row="0" Grid.Column="2" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter"/>
+                    <Image x:Name="Button_Pokeball" Grid.Row="0" Grid.Column="0" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseEnter="Button_Pokeball_MouseEnter" MouseLeave="Button_Pokeball_MouseExit" Source="/pokeball.png"/>
+                    <Image x:Name="Button_Masterball" Grid.Row="0" Grid.Column="1" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter" Source="/masterball.png"/>
+                    <Image x:Name="Button_Greatball" Grid.Row="0" Grid.Column="2" PreviewMouseLeftButtonDown="Button_Pokeball_Select" MouseLeave="Button_Pokeball_MouseExit" MouseEnter="Button_Pokeball_MouseEnter" Source="/greatball.png"/>
                 </Grid>
             </Grid>
         </Grid>
