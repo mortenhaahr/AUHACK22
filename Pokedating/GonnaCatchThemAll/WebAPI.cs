@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Reflection;
+using System.IO;
 
 namespace WebAPI
 {
@@ -61,19 +63,46 @@ namespace WebAPI
 
     public abstract class IUser<T>
     {
+        [PostUser]
         public string? url { get; set; }
+
+        [PostUser]
         public int id { get; set; }
+
+        [PostUser]
         public string? email { get; set; }
+
+        [PostUser]
         public string? first_name { get; set; }
+
+        [PostUser]
         public string? last_name { get; set; }
+
+        [PostUser]
         public int gender { get; set; }
+
+        [PostUser]
         public int age { get; set; }
+
+        [PostUser]
         public string? description { get; set; }
+
+        [PostUser]
         public double last_seen_lat { get; set; }
+
+        [PostUser]
         public double last_seen_long { get; set; }
+
+        [PostUser]
         public int[]? looking_for { get; set; }
+
+        [PostUser]
         public int age_from { get; set; }
+        
+        [PostUser]
         public int age_to { get; set; }
+
+        [PostUser]
         public double search_radius { get; set; }
 
         public T? photo0 { get; set; }
@@ -90,6 +119,11 @@ namespace WebAPI
     }
 
     public class PostUser : IUser<byte[]>
+    {
+
+    }
+
+    public class PostUserAttribute : Attribute
     {
 
     }
@@ -196,18 +230,18 @@ namespace WebAPI
             return await Get<Response<T>>(path, null);
         }
 
-        public static async Task<string> Post<T>(string? path, T? obj, int? userId = null)
+        public static async Task<string> Post<T>(string? path, T obj, int? userId = null)
         {
-            ByteArrayContent? byteContent = null;
-            if (obj is not null)
-            {
-                var myContent = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-                var buffer = Encoding.UTF8.GetBytes(myContent);
-                byteContent = new ByteArrayContent(buffer);
-                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            }
+
+
+            string myContent = JsonSerializer.Serialize(obj, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
             
 
+            var buffer = Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            
             path += (userId is null ? "" : userId.ToString() + "/");
 
 
@@ -218,8 +252,6 @@ namespace WebAPI
 
             try
             {
-
-                
                 responseContent = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
             }
@@ -248,6 +280,49 @@ namespace WebAPI
             return await Get<Smash>("smash_pass/" + userID.ToString() + "/" + smashID.ToString() + "/", null);
         }
 
+        public async static Task<byte[]> LoadImage(Uri uri)
+        {
+
+            var response = await client.GetAsync(uri);
+
+            response.EnsureSuccessStatusCode();
+
+            var image = await response.Content.ReadAsByteArrayAsync();
+
+            return image;
+        }
+
+        public async static Task<string> PostUser(string? path, PostUser userData)
+        {
+            return await Post(path, new User()
+            {
+                url = userData.url,
+                id = userData.id,
+                email = userData.email,
+                first_name = userData.first_name,
+                last_name = userData.last_name,
+                gender = userData.gender,
+                age = userData.age,
+                description = userData.description,
+                last_seen_lat = userData.last_seen_lat,
+                last_seen_long = userData.last_seen_long,
+                looking_for = userData.looking_for,
+                age_from = userData.age_from,
+                age_to = userData.age_to,
+                search_radius = userData.search_radius,
+                photo0 = (userData.photo0 == null? null:Convert.ToBase64String(userData.photo0, 0, userData.photo0.Length)),
+                photo1 = (userData.photo1 == null? null:Convert.ToBase64String(userData.photo1, 0, userData.photo1.Length)),
+                photo2 = (userData.photo2 == null? null:Convert.ToBase64String(userData.photo2, 0, userData.photo2.Length)),
+                photo3 = (userData.photo3 == null? null:Convert.ToBase64String(userData.photo3, 0, userData.photo3.Length)),
+                photo4 = (userData.photo4 == null? null:Convert.ToBase64String(userData.photo4, 0, userData.photo4.Length)),
+                photo5 = (userData.photo5 == null? null:Convert.ToBase64String(userData.photo5, 0, userData.photo5.Length)),
+                photo6 = (userData.photo6 == null? null:Convert.ToBase64String(userData.photo6, 0, userData.photo6.Length)),
+                photo7 = (userData.photo7 == null? null:Convert.ToBase64String(userData.photo7, 0, userData.photo7.Length)),
+                photo8 = (userData.photo8 == null? null:Convert.ToBase64String(userData.photo8, 0, userData.photo8.Length)),
+                photo9 = (userData.photo9 == null ? null : Convert.ToBase64String(userData.photo9, 0, userData.photo9.Length)),
+            });
+
+        }
 
         static WebClient()
         {

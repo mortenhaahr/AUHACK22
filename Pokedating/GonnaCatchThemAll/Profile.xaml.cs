@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using GonnaCatchThemAll.Helpers;
 using System.Text.Json;
+using System.IO;
 
 namespace GonnaCatchThemAll
 {
@@ -139,12 +140,16 @@ namespace GonnaCatchThemAll
             (e.Source as Image).Opacity = 1;
         }
 
+        private List<string> ImagePaths = new List<string> { "", "", "", "", "", "", "", "", "" };
+
         private void Image_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
             if (openFile.ShowDialog() == true)
             {
                 (e.Source as Image).Source = new BitmapImage(new Uri(openFile.FileName));
+                int pos = ((int)(e.Source as Image).Name.Last()) - 48;
+                ImagePaths[pos] = openFile.FileName;
             }
         }
 
@@ -175,15 +180,15 @@ namespace GonnaCatchThemAll
             user.age_from = (int)Math.Round(ageSlider.SelectionStart);
             user.age_to = (int)Math.Round(ageSlider.SelectionEnd);
             user.search_radius = (int)Math.Round(distSlider.SelectionEnd);
-            user.photo0 = null; //Image0.Source.ToString();
-            user.photo1 = null; //Image1.Source.ToString();
-            user.photo2 = null; //Image2.Source.ToString();
-            user.photo3 = null; //Image3.Source.ToString();
-            user.photo4 = null; //Image4.Source.ToString();
-            user.photo5 = null; //Image5.Source.ToString();
-            user.photo6 = null; //Image6.Source.ToString();
-            user.photo7 = null; //Image7.Source.ToString();
-            user.photo8 = null; //Image8.Source.ToString();
+            user.photo0 = (ImagePaths[0] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[0])) : null;
+            user.photo1 = (ImagePaths[1] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[1])) : null;
+            user.photo2 = (ImagePaths[2] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[2])) : null;
+            user.photo3 = (ImagePaths[3] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[3])) : null;
+            user.photo4 = (ImagePaths[4] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[4])) : null;
+            user.photo5 = (ImagePaths[5] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[5])) : null;
+            user.photo6 = (ImagePaths[6] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[6])) : null;
+            user.photo7 = (ImagePaths[7] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[7])) : null;
+            user.photo8 = (ImagePaths[8] != "") ? Convert.ToBase64String(File.ReadAllBytes(ImagePaths[8])) : null;
             user.last_seen_lat = 56.171089;
             user.last_seen_long = 10.189372;
             List<int> lookFor = new List<int>();
@@ -200,10 +205,13 @@ namespace GonnaCatchThemAll
                 lookFor.Add(2);
             }
             user.looking_for = lookFor.ToArray();
-            Task<string> task = WebAPI.WebClient.Post<WebAPI.User>("users/", user);
-            task.Start();
-            task.Wait();
-            user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
+            var result = WebAPI.WebClient.Post<WebAPI.User>("users/", user).ContinueWith((task) =>
+            {
+                task.Wait();
+                user = JsonSerializer.Deserialize<WebAPI.User>(task.Result);
+                SaveDelegate(user);
+            });
+            
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
@@ -214,7 +222,6 @@ namespace GonnaCatchThemAll
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
             Save_ProfileData();
-            SaveDelegate(user);
         }
     }
 }

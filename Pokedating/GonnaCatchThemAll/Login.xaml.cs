@@ -33,11 +33,15 @@ namespace GonnaCatchThemAll
         {
             var username = Username_TextBox.Text;
             var password = Password_TextBox.Password;
-            WebAPI.WebClient.Get<WebAPI.User>("users/", 1).ContinueWith((a) =>
+            WebAPI.WebClient.Get<WebAPI.User>("users/?email=" + Username_TextBox.Text).ContinueWith((a) =>
             {
+
                 a.Wait();
-                Profile.instance.user = a.Result;
-                LoginDelegate(Profile.instance.user);
+                if(a.Result.count > 0)
+                {
+                    Profile.instance.user = a.Result.results[0];
+                    LoginDelegate(Profile.instance.user);
+                }
             });
         }
 

@@ -29,9 +29,27 @@ namespace GonnaCatchThemAll
                 images.Add(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\nudes\" + image + ".png")));
             }
             InitializeComponent();
+            idx = 0;
             Image_viewer.Source = images[0];
             Left_btn.Content = "<";
             Right_btn.Content= ">";
+        }
+
+        public void LoadNewImages(List<string> imageList)
+        {
+            this.Image_viewer.Dispatcher.Invoke(() =>
+            {
+                Image_viewer.Source = null;
+                images = new List<BitmapImage>();
+                foreach (var image in imageList)
+                {
+                    if (image != null)
+                    {
+                        images.Add(new BitmapImage(new Uri(image)));
+                    }
+                }
+                Image_viewer.Source = images[0];
+            });
         }
 
         private void Show_MouseEnter(object sender, MouseEventArgs e)
