@@ -59,7 +59,34 @@ class Base64ImageField(serializers.ImageField):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     looking_for = fields.MultipleChoiceField(choices=GENDER.GENDER_CHOICES)
     photo0 = Base64ImageField(
-        max_length=None, use_url=True
+        max_length=None, use_url=True, default="user/default_monkey.png"
+    )
+    photo1 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo2 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo3 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo4 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo5 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo6 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo7 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo8 = Base64ImageField(
+        max_length=None, use_url=True, required=False
+    )
+    photo9 = Base64ImageField(
+        max_length=None, use_url=True, required=False
     )
 
     class Meta:

@@ -77,7 +77,7 @@ class CandidatesView(views.APIView):
         user_coords = (user.last_seen_lat, user.last_seen_long)
 
         # This is stupid but ok
-        matches = Match.objects.filter(user__pk=user.pk).only('user')
+        matches = Match.objects.filter(user__pk=user.pk).exclude(smash=None).only('user')
         matches_ids = [match.candidate.pk for match in matches]
         candidates = get_user_model().objects.exclude(pk=pk).exclude(pokeprofile__isnull=True).exclude(pk__in=matches_ids)
         l = lambda inp: distance.distance(user_coords, (inp.last_seen_lat, inp.last_seen_long)).km < user.search_radius
@@ -89,8 +89,8 @@ class CandidatesView(views.APIView):
 
         result = [UserSerializer(user, context={'request': request}).data for user in user_matches[0:amount]]
 
-        for match in user_matches:
-            Match.objects.create(user=user, candidate=match).save()
+        for match in user_matches[0:amount]:
+            Match.objects.update_or_create(user=user, candidate=match, defaults={})
 
         return Response(result)
 
